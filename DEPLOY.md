@@ -1,78 +1,56 @@
 # Deployment: intech-sanitaer.ch auf GitHub Pages
 
-Gleiches Setup wie bei **nasuvia.ch** (GitHub Pages + eigene Domain).
-Die Seite wird bei jedem Push auf `main` automatisch neu gebaut und deployt.
+Gleiches Prinzip wie bei **nasuvia.ch** (GitHub Pages + eigene Domain).
+Repo: https://github.com/nasufienes-bit/Intech
 
-## Einmalige Einrichtung
+Veröffentlicht wird über den `gh-pages`-Branch: `npm run deploy` baut die
+Seite und pusht den fertigen Build dorthin — GitHub Pages liefert ihn aus.
 
-### 1. GitHub-Repository anlegen und pushen
+## Einmalige Einrichtung (Stand: DNS bei Wix ist bereits umgestellt ✓)
 
-1. Auf https://github.com/new gehen (eingeloggt als `nasufienes-bit`).
-2. Repository-Name: `intech-sanitaer` · Sichtbarkeit: **Public** (nötig für
-   kostenloses GitHub Pages) · KEINE Haken bei README/gitignore setzen.
-3. Im Terminal:
+1. **Code pushen** (falls noch nicht geschehen):
 
    ```bash
    cd ~/Desktop/intech-sanitaer
-   git remote add origin https://github.com/nasufienes-bit/intech-sanitaer.git
    git push -u origin main
    ```
 
-### 2. GitHub Pages aktivieren
+2. **Erste Veröffentlichung:**
 
-1. Im Repo: **Settings → Pages**.
-2. Bei „Build and deployment“ → Source: **GitHub Actions** wählen.
-3. Der Workflow (`.github/workflows/deploy.yml`) läuft beim nächsten Push
-   automatisch — oder unter **Actions → Deploy auf GitHub Pages → Run workflow**
-   manuell starten.
-4. Wenn der Workflow grün ist: zurück zu **Settings → Pages** →
-   bei „Custom domain“ `www.intech-sanitaer.ch` eintragen und speichern.
-   (Der Haken **Enforce HTTPS** lässt sich setzen, sobald das DNS unten
-   umgestellt und das Zertifikat ausgestellt ist — dauert bis ~1 Stunde.)
+   ```bash
+   npm run deploy
+   ```
 
-### 3. DNS bei Wix umstellen
+3. **GitHub Pages aktivieren:** Im Repo → **Settings → Pages** →
+   Source: **Deploy from a branch** → Branch: **gh-pages** / **(root)** → Save.
 
-Die Domain nutzt aktuell die Wix-Nameserver — die DNS-Einträge werden
-darum im **Wix-Konto** verwaltet: https://www.wix.com/my-account →
-**Domains** → `intech-sanitaer.ch` → **DNS-Einträge verwalten**.
-(Falls Wix das Bearbeiten blockiert, zuerst unter „Domain zuweisen“ die
-Verbindung der Domain zur alten Wix-Website trennen.)
+4. **Domain:** Bei „Custom domain“ `www.intech-sanitaer.ch` eintragen
+   (steht sie schon da, weil die CNAME-Datei mitdeployt wird: nur prüfen).
+   Sobald verfügbar: Haken bei **Enforce HTTPS** setzen (Zertifikat
+   braucht nach der DNS-Umstellung bis ~1 Stunde).
 
-**Ändern:**
+5. **Kontrolle:** https://www.intech-sanitaer.ch zeigt die neue Seite mit
+   Schloss-Symbol; https://intech-sanitaer.ch leitet auf www um; eine
+   Test-Mail an info@intech-sanitaer.ch kommt weiterhin an.
 
-| Typ   | Host/Name | Alter Wert                  | Neuer Wert                  |
-| ----- | --------- | --------------------------- | --------------------------- |
-| A     | `@`       | 185.230.63.x (Wix, alle löschen) | `185.199.108.153`      |
-| A     | `@`       | —                           | `185.199.109.153`           |
-| A     | `@`       | —                           | `185.199.110.153`           |
-| A     | `@`       | —                           | `185.199.111.153`           |
-| CNAME | `www`     | `cdn1.wixdns.net`           | `nasufienes-bit.github.io`  |
+## DNS-Referenz (bereits erledigt, im Wix-Konto)
 
-**NICHT anfassen (sonst fällt die Firmen-E-Mail aus!):**
+- A `@` → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+- CNAME `www` → `nasufienes-bit.github.io`
+- **Unverändert lassen:** MX (Google Workspace) und TXT (SPF/Verification)
+  — sonst fällt info@intech-sanitaer.ch aus!
 
-- Alle **MX**-Einträge (`aspmx.l.google.com` usw. — Google Workspace)
-- Alle **TXT**-Einträge (`v=spf1 include:_spf.google.com ~all` und die
-  `google-site-verification`-Einträge)
-
-DNS-Änderungen brauchen wenige Minuten bis ein paar Stunden. Danach in
-GitHub **Settings → Pages** den Haken **Enforce HTTPS** setzen.
-
-### 4. Kontrolle
-
-- https://www.intech-sanitaer.ch öffnen → neue Seite mit Schloss-Symbol (HTTPS).
-- https://intech-sanitaer.ch (ohne www) → leitet automatisch auf www um.
-- Test-Mail an info@intech-sanitaer.ch schicken → muss weiterhin ankommen.
-- Danach kann das Wix-Abo gekündigt werden (die Domain-Registrierung bei
-  Wix aber **behalten**, solange sie dort registriert ist!).
-
-## Jedes weitere Update deployen
+## Jedes weitere Update veröffentlichen
 
 ```bash
 cd ~/Desktop/intech-sanitaer
-git add -A
-git commit -m "Beschreibung der Änderung"
-git push
+git add -A && git commit -m "Beschreibung der Änderung"
+git push          # Quellcode sichern
+npm run deploy    # Seite bauen & live stellen (~1 Minute)
 ```
 
-→ GitHub Actions baut und veröffentlicht automatisch (~2 Minuten,
-Fortschritt unter dem Tab **Actions** im Repo).
+Hinweis: Automatisches Deployen per GitHub Actions war vorbereitet, ist
+aber mit dem aktuellen GitHub-Token nicht möglich (fehlender
+„workflow“-Scope). Falls gewünscht: Token unter github.com/settings/tokens
+um den Scope **workflow** erweitern — dann kann der Actions-Workflow
+wieder eingerichtet werden und `npm run deploy` entfällt.
