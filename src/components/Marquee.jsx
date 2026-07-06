@@ -1,11 +1,17 @@
+import { useRef } from 'react'
+import { useInView } from 'framer-motion'
 import { marqueeItems } from '../data/content.js'
 import './Marquee.css'
 
-/** Endlos-Laufband im Blau→Rot-Verlauf (Logofarben) */
+/** Endlos-Laufband im Blau→Rot-Verlauf (Logofarben).
+ *  Zwei Kopien pro Gruppe reichen für den nahtlosen 50%-Loop;
+ *  ausserhalb des Viewports pausieren alle Animationen. */
 export default function Marquee() {
-  const row = [...marqueeItems, ...marqueeItems, ...marqueeItems]
+  const ref = useRef(null)
+  const inView = useInView(ref, { margin: '10% 0px' })
+  const row = [...marqueeItems, ...marqueeItems]
   return (
-    <div className="marquee" aria-hidden="true">
+    <div ref={ref} className={`marquee${inView ? '' : ' marquee--paused'}`} aria-hidden="true">
       <div className="marquee__track">
         {[0, 1].map((copy) => (
           <div className="marquee__group" key={copy}>

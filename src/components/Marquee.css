@@ -16,6 +16,12 @@
 }
 .marquee:hover .marquee__track { animation-play-state: paused; }
 
+/* Ausserhalb des Viewports: Laufband & Sterne anhalten */
+.marquee--paused .marquee__track,
+.marquee--paused .marquee__star {
+  animation-play-state: paused;
+}
+
 .marquee__group {
   display: flex;
   align-items: center;

@@ -100,6 +100,17 @@
   50% { background-position: 100% 50%; }
 }
 
+/* Ausserhalb des Viewports: alle Endlos-Loops anhalten (Repaint-Kosten,
+   v.a. der background-clip:text-Schimmer ist teuer) */
+.hero--paused .hero__word--blue,
+.hero--paused .hero__word--red,
+.hero--paused .hero__glow--blue,
+.hero--paused .hero__glow--red,
+.hero--paused .hero__badge-dot,
+.hero--paused .hero__chip {
+  animation-play-state: paused;
+}
+
 .hero__lead { margin-bottom: 38px; max-width: 50ch; }
 
 .hero__actions {
@@ -209,7 +220,11 @@
     grid-template-columns: 1fr;
     padding-block: 48px 64px;
   }
-  .hero__art { max-width: 420px; }
+  /* Illustration mobil kompakt — sie ist Deko, kein Inhalt */
+  .hero__art { max-width: 340px; }
+}
+@media (max-width: 480px) {
+  .hero__art { max-width: 290px; }
 }
 @media (max-width: 640px) {
   /* Auch den Magnetic-Wrapper strecken, sonst greift width:100% nicht */

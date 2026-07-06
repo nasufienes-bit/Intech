@@ -76,8 +76,12 @@ export default function About() {
                 <div className="about__media-frame">
                   <motion.img
                     src="/images/technik-anlage.jpg"
+                    srcSet="/images/technik-anlage-480.jpg 480w, /images/technik-anlage-960.jpg 960w, /images/technik-anlage.jpg 1600w"
+                    sizes="(max-width: 960px) 100vw, 50vw"
                     alt="Sauber installierte Heizungs- und Sanitärtechnik von Intech Sanitär"
                     style={{ y: mediaY }}
+                    loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <figcaption className="about__media-caption">

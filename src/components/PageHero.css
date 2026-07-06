@@ -45,7 +45,15 @@
   letter-spacing: 0.04em;
   color: var(--muted);
 }
-.page-hero__crumbs a { transition: color 0.3s var(--ease); }
+.page-hero__crumbs a {
+  /* grössere Trefferfläche ohne Layout-Verschiebung */
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding-inline: 4px;
+  margin-block: -10px;
+  transition: color 0.3s var(--ease);
+}
 .page-hero__crumbs a:hover { color: var(--blue); }
 .page-hero__crumb {
   display: inline-flex;

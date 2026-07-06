@@ -72,13 +72,15 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 13px;
+  gap: 5px;
 }
 
 .footer__link {
   position: relative;
   display: inline-flex;
   align-items: center;
+  /* padding statt gap: gleicher Rhythmus, aber ~40px Touch-Ziel */
+  padding-block: 8px;
   font-size: 14.5px;
   color: var(--muted);
   transition: color 0.4s var(--ease);

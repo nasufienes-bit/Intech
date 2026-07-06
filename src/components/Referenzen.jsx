@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { MapPin, ArrowUpRight } from 'lucide-react'
 import { references } from '../data/content.js'
-import { Reveal, SectionHead, Brackets, Magnetic, Arrow, EASE } from './shared.jsx'
+import { Reveal, SectionHead, Brackets, Magnetic, Arrow, imgSrcSet, EASE } from './shared.jsx'
 import './Referenzen.css'
 
 const VIEWPORT = { once: true, margin: '-12% 0px' }
@@ -39,8 +39,11 @@ function TileMedia({ project, number, delay = 0 }) {
       >
         <img
           src={project.image}
+          srcSet={imgSrcSet(project.image)}
+          sizes="(max-width: 920px) 100vw, 50vw"
           alt={`${project.name} — ${project.scope}, ${project.location}`}
           loading="lazy"
+          decoding="async"
         />
       </motion.div>
       <span className="ref-media__scrim" aria-hidden="true" />

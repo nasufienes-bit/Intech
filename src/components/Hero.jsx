@@ -1,6 +1,6 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import { motion, useMotionValue, useSpring, useTransform, useInView } from 'framer-motion'
 import { MapPin, Star } from 'lucide-react'
 import { hero, site, reviews, whatsapp } from '../data/content.js'
 import PipeArt from './PipeArt.jsx'
@@ -25,6 +25,9 @@ const wordAnim = {
  */
 export default function Hero({ start = true }) {
   const use3D = useWants3D()
+  // Endlos-Animationen pausieren, sobald der Hero aus dem Viewport ist
+  const sectionRef = useRef(null)
+  const heroVisible = useInView(sectionRef, { margin: '15% 0px' })
   // Maus-Parallax: die Rohr-Illustration folgt dem Cursor sanft.
   // In 3D übernimmt die Szene selbst die Tiefenrotation — der Wrapper
   // bewegt sich dann nur noch minimal mit.
@@ -48,7 +51,12 @@ export default function Hero({ start = true }) {
   })
 
   return (
-    <section id="top" className="hero" onMouseMove={onMouseMove}>
+    <section
+      id="top"
+      ref={sectionRef}
+      className={`hero${heroVisible ? '' : ' hero--paused'}`}
+      onMouseMove={onMouseMove}
+    >
       <div className="grid-lines" />
       <div className="hero__glow hero__glow--blue glow-blue" />
       <div className="hero__glow hero__glow--red glow-red" />

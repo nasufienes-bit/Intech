@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Droplets, Flame, Sun, Snowflake } from 'lucide-react'
 import { services, competencies } from '../data/content.js'
-import { Reveal, SectionHead, Brackets, Arrow, Tilt } from './shared.jsx'
+import { Reveal, SectionHead, Brackets, Arrow, Tilt, imgSrcSet } from './shared.jsx'
 import './Services.css'
 
 const compIcons = {
@@ -41,8 +41,11 @@ export default function Services() {
                 <div className="services__media">
                   <img
                     src={s.image}
+                    srcSet={imgSrcSet(s.image)}
+                    sizes="(max-width: 920px) 100vw, 33vw"
                     alt={`${s.title} durch Intech Sanitär — ${s.tags.join(', ')}`}
                     loading="lazy"
+                    decoding="async"
                   />
                   <div className="services__scrim" aria-hidden="true" />
                   <span className="services__index" aria-hidden="true">

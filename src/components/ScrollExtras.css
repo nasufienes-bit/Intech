@@ -29,3 +29,9 @@
 .scroll-top:hover {
   box-shadow: 0 20px 44px -10px rgba(252, 1, 1, 0.45);
 }
+
+/* Mobil ausblenden: überlappt sonst rechtsbündige CTAs
+   (z.B. den WhatsApp-Submit des Kontaktformulars) */
+@media (max-width: 640px) {
+  .scroll-top { display: none; }
+}

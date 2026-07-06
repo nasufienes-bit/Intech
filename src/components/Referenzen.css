@@ -155,6 +155,20 @@
   opacity: 1;
 }
 
+/* Touch-Geräte kennen kein Hover: Pfeil dauerhaft sichtbar zeigen,
+   statt einen leeren weissen Kreis stehen zu lassen */
+@media (hover: none) {
+  .ref-media__cta {
+    color: #fff;
+    border-color: transparent;
+  }
+  .ref-media__cta::before { opacity: 1; }
+  .ref-media__cta svg {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+
 /* ---------- Textbereich der Teaser-Kachel ---------- */
 .ref-tile__body {
   display: flex;

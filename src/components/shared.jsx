@@ -172,6 +172,12 @@ export function WhatsAppIcon({ size = 18 }) {
   )
 }
 
+/** srcset für die generierten Bildvarianten (-480/-960 + Original 1600px) */
+export function imgSrcSet(src) {
+  const base = src.replace(/\.jpg$/, '')
+  return `${base}-480.jpg 480w, ${base}-960.jpg 960w, ${src} 1600w`
+}
+
 /** Scrollt smooth (Lenis) zu einem Anker */
 export function scrollToHash(href) {
   const el = document.querySelector(href)

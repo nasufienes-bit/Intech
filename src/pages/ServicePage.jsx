@@ -9,7 +9,7 @@ import {
 } from 'lucide-react'
 import { serviceDetails, services, site, whatsapp } from '../data/content.js'
 import PageHero from '../components/PageHero.jsx'
-import { Reveal, SectionHead, Brackets, Magnetic, WhatsAppIcon, useWants3D, EASE } from '../components/shared.jsx'
+import { Reveal, SectionHead, Brackets, Magnetic, WhatsAppIcon, useWants3D, imgSrcSet, EASE } from '../components/shared.jsx'
 import './ServicePage.css'
 
 /* 3D-Dusche — lazy als eigener Chunk, nur Desktop mit WebGL */
@@ -56,7 +56,16 @@ function ParallaxImage({ src, alt }) {
     <figure className="sp-intro__media" ref={ref}>
       <Brackets size={34} />
       <div className="sp-intro__frame">
-        <motion.img className="sp-intro__img" src={src} alt={alt} style={{ y }} />
+        <motion.img
+          className="sp-intro__img"
+          src={src}
+          srcSet={imgSrcSet(src)}
+          sizes="(max-width: 960px) 100vw, 50vw"
+          alt={alt}
+          style={{ y }}
+          loading="lazy"
+          decoding="async"
+        />
       </div>
     </figure>
   )
@@ -256,8 +265,11 @@ export default function ServicePage() {
                   <div className="sp-more__media">
                     <img
                       src={s.image}
+                      srcSet={imgSrcSet(s.image)}
+                      sizes="(max-width: 720px) 100vw, 50vw"
                       alt={`${s.title} — ${s.tags.join(', ')}`}
                       loading="lazy"
+                      decoding="async"
                     />
                     <span className="sp-more__index" aria-hidden="true">{s.index}</span>
                   </div>
