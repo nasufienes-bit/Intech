@@ -1,0 +1,205 @@
+/* ============================================================
+   FOOTER — hell (var(--bg-3)), mit subtilem INTECH-Wasserzeichen
+   ============================================================ */
+
+.footer {
+  position: relative;
+  background: var(--bg-3);
+  border-top: 1px solid var(--line);
+  overflow: hidden;
+  padding-top: clamp(64px, 8vw, 110px);
+}
+
+/* Riesiges Outline-Wasserzeichen hinter dem Inhalt */
+.footer__ghost {
+  position: absolute;
+  left: 50%;
+  bottom: -0.16em;
+  transform: translateX(-50%);
+  z-index: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(130px, 24vw, 340px);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(14, 16, 22, 0.06);
+  pointer-events: none;
+  user-select: none;
+}
+
+.footer__inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Obere Zone: Brand + 4 Spalten ---------- */
+.footer__top {
+  display: grid;
+  grid-template-columns: 1.5fr repeat(4, 1fr);
+  gap: clamp(32px, 4.5vw, 56px);
+  padding-bottom: clamp(48px, 6vw, 80px);
+}
+
+.footer__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+.footer__claim {
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.footer__col {
+  display: flex;
+  flex-direction: column;
+}
+.footer__col-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted-strong);
+  margin-bottom: 20px;
+}
+
+.footer__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.footer__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-size: 14.5px;
+  color: var(--muted);
+  transition: color 0.4s var(--ease);
+}
+.footer__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 1px;
+  background: var(--grad);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease);
+}
+a.footer__link:hover {
+  color: var(--text);
+}
+a.footer__link:hover::after {
+  transform: scaleX(1);
+}
+
+.footer__link--icon {
+  gap: 10px;
+  align-items: flex-start;
+}
+.footer__link--icon svg {
+  flex-shrink: 0;
+  margin-top: 4px;
+  color: var(--blue);
+}
+.footer__list li:nth-child(2) .footer__link--icon svg { color: var(--red); }
+.footer__link--static::after { display: none; }
+.footer__link--static { cursor: default; }
+
+/* ---------- Google-Rating-Zeile ---------- */
+.footer__rating {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-block: 20px;
+  border-top: 1px solid var(--line);
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.footer__rating-stars {
+  display: inline-flex;
+  gap: 2px;
+  color: #fbbc05;
+}
+.footer__rating-value {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--text);
+}
+.footer__rating-count {
+  color: var(--muted);
+}
+.footer__rating-link {
+  position: relative;
+  font-weight: 600;
+  color: var(--blue);
+  transition: color 0.35s var(--ease);
+}
+.footer__rating-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease);
+}
+.footer__rating-link:hover { color: var(--blue-bright); }
+.footer__rating-link:hover::after { transform: scaleX(1); }
+
+/* ---------- Unterste Zeile ---------- */
+.footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 28px;
+  padding-block: 22px;
+  border-top: 1px solid var(--line);
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+.footer__bottom p { margin: 0; }
+
+/* ---------- Responsiv: 4 → 2 → 1 Spalten ---------- */
+@media (max-width: 1080px) {
+  .footer__top {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 560px) {
+  .footer__top {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .footer__ghost {
+    font-size: clamp(96px, 30vw, 130px);
+  }
+}
+
+/* WhatsApp-Link im Footer */
+.footer__link--whatsapp svg { color: #25d366; }
+.footer__link--whatsapp:hover { color: #1ebe5b; }

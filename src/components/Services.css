@@ -1,0 +1,336 @@
+/* ============================================================
+   SERVICES — Leistungen (Teaser-Karten + Fachbereiche)
+   Helles Theme: weisse Karten, weiche Schatten, Ton-Akzente
+   ============================================================ */
+
+.services {
+  background: var(--bg);
+  overflow: hidden;
+}
+
+/* Sanfte Marken-Glows: blau oben links, rot unten rechts (Dualität) */
+.services__glow {
+  width: clamp(320px, 40vw, 560px);
+  height: clamp(260px, 32vw, 440px);
+}
+.services__glow--blue {
+  top: -120px;
+  left: -160px;
+}
+.services__glow--red {
+  bottom: -140px;
+  right: -160px;
+}
+
+.services > .container {
+  position: relative;
+}
+
+/* ---------- Teaser-Karten ---------- */
+.services__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(18px, 2.2vw, 28px);
+  margin-bottom: clamp(72px, 9vw, 116px);
+}
+
+.services__cell {
+  height: 100%;
+}
+
+/* 3D-Tilt-Wrapper: volle Höhe, Karte darf leicht aus der Ebene kippen */
+.services__tilt {
+  height: 100%;
+}
+
+/* Die ganze Karte ist ein Link */
+.services__card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: inherit;
+}
+a.services__card:focus-visible {
+  outline: 3px solid var(--blue-bright);
+  outline-offset: 3px;
+}
+
+/* Ton-Akzente beim Hover: gefärbte Border + getönter weicher Schatten */
+.services__card--blue:hover {
+  border-color: rgba(36, 64, 208, 0.42);
+  box-shadow:
+    var(--shadow-lg),
+    0 24px 60px -28px rgba(36, 64, 208, 0.3);
+}
+.services__card--red:hover {
+  border-color: rgba(252, 1, 1, 0.35);
+  box-shadow:
+    var(--shadow-lg),
+    0 24px 60px -28px rgba(252, 1, 1, 0.22);
+}
+.services__card--grad:hover {
+  border-color: rgba(157, 46, 128, 0.42);
+  box-shadow:
+    var(--shadow-lg),
+    0 20px 55px -26px rgba(36, 64, 208, 0.2),
+    0 20px 55px -26px rgba(252, 1, 1, 0.16);
+}
+
+/* Bild mit sanftem Hover-Zoom */
+.services__media {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  overflow: hidden;
+}
+.services__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.001);
+  transition: transform 0.9s var(--ease);
+}
+.services__card:hover .services__media img {
+  transform: scale(1.06);
+}
+
+/* Dezenter Verlauf nur über dem Foto — für lesbare Index-Ziffer */
+.services__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(14, 16, 22, 0) 46%, rgba(14, 16, 22, 0.5) 100%);
+}
+
+/* Grosse Index-Ziffer als Deko auf dem Bild */
+.services__index {
+  position: absolute;
+  left: 20px;
+  bottom: 4px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(64px, 6vw, 92px);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  opacity: 0.94;
+  transition: transform 0.6s var(--ease), opacity 0.6s var(--ease);
+}
+.services__card:hover .services__index {
+  transform: translateY(-5px);
+  opacity: 1;
+}
+.services__card--blue .services__index {
+  background-image: linear-gradient(180deg, #e4e9ff 0%, #8fa2ff 90%);
+}
+.services__card--red .services__index {
+  background-image: linear-gradient(180deg, #ffe8e5 0%, #ff9184 90%);
+}
+.services__card--grad .services__index {
+  background-image: linear-gradient(100deg, #8fa2ff 0%, #ff9184 100%);
+}
+
+/* Karten-Inhalt */
+.services__body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 26px 26px 24px;
+  flex: 1;
+}
+
+.services__title {
+  font-size: clamp(22px, 2vw, 27px);
+  letter-spacing: -0.01em;
+}
+
+.services__desc {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+/* Tag-Chips */
+.services__tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 6px;
+}
+.services__tag {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 6px 13px;
+  border-radius: 99px;
+  background: var(--bg-3);
+  color: var(--muted-strong);
+  white-space: nowrap;
+  transition: background-color 0.45s var(--ease), color 0.45s var(--ease);
+}
+.services__card--blue:hover .services__tag {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+.services__card--red:hover .services__tag {
+  background: var(--red-soft);
+  color: var(--red-deep);
+}
+.services__card--grad:hover .services__tag {
+  background: var(--grad-soft);
+  color: var(--text);
+}
+
+/* "Mehr erfahren →" — Pfeil fährt beim Hover nach rechts */
+.services__more {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+.services__more svg {
+  flex-shrink: 0;
+  transition: transform 0.5s var(--ease);
+}
+.services__card:hover .services__more svg {
+  transform: translateX(6px);
+}
+.services__card--blue .services__more {
+  color: var(--blue);
+}
+.services__card--red .services__more {
+  color: var(--red);
+}
+.services__card--grad .services__more {
+  color: var(--violet);
+}
+.services__card--grad .services__more-label {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Logo-Klammern: erscheinen beim Hover */
+.services__frame {
+  position: absolute;
+  inset: 14px;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.97);
+  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+}
+.services__card:hover .services__frame {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ---------- Kompetenz-Kacheln ---------- */
+.services__sub {
+  margin-bottom: clamp(28px, 4vw, 40px);
+}
+
+.services__comp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(14px, 1.8vw, 22px);
+}
+
+.services__comp {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 22px;
+}
+
+/* Icon in zartem tonfarbenem Kreis */
+.services__comp-icon {
+  width: 54px;
+  height: 54px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition: transform 0.55s var(--ease), box-shadow 0.55s var(--ease);
+}
+.services__comp--blue .services__comp-icon {
+  color: var(--blue);
+  background: var(--blue-soft);
+  box-shadow: inset 0 0 0 1px rgba(36, 64, 208, 0.16);
+}
+.services__comp--red .services__comp-icon {
+  color: var(--red);
+  background: var(--red-soft);
+  box-shadow: inset 0 0 0 1px rgba(252, 1, 1, 0.14);
+}
+.services__comp:hover .services__comp-icon {
+  transform: scale(1.1) rotate(-6deg);
+}
+.services__comp--blue:hover .services__comp-icon {
+  box-shadow: inset 0 0 0 1px rgba(36, 64, 208, 0.35);
+}
+.services__comp--red:hover .services__comp-icon {
+  box-shadow: inset 0 0 0 1px rgba(252, 1, 1, 0.3);
+}
+.services__comp--blue:hover {
+  border-color: rgba(36, 64, 208, 0.35);
+  box-shadow: 0 20px 50px -22px rgba(36, 64, 208, 0.28);
+}
+.services__comp--red:hover {
+  border-color: rgba(252, 1, 1, 0.3);
+  box-shadow: 0 20px 50px -22px rgba(252, 1, 1, 0.2);
+}
+
+.services__comp-label {
+  font-size: 17px;
+  margin-bottom: 3px;
+}
+
+.services__comp-detail {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 920px) {
+  .services__grid {
+    grid-template-columns: 1fr;
+    max-width: 560px;
+    margin-inline: auto;
+  }
+  .services__media {
+    aspect-ratio: 16 / 9;
+  }
+  .services__comp-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .services__comp-grid {
+    grid-template-columns: 1fr;
+  }
+  .services__body {
+    padding: 22px 20px 22px;
+  }
+  .services__index {
+    font-size: 58px;
+    left: 16px;
+  }
+  .services__comp {
+    padding: 18px 16px;
+  }
+}

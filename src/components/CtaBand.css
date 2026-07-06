@@ -1,0 +1,143 @@
+/* ============================================================
+   CTA-BAND — Full-bleed-Farbband Blau→Violett→Rot
+   Farbiger Akzent zwischen hellen Sektionen: weisse Riesen-
+   Typo, halbtransparente Winkelklammern, wandernder Shine.
+   ============================================================ */
+
+.ctaband {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(96px, 13vw, 170px);
+  background: linear-gradient(120deg, var(--blue) 0%, var(--violet) 46%, var(--red) 100%);
+  text-align: center;
+  isolation: isolate;
+}
+
+/* Tiefe: weiches Licht oben, sanfte Sättigung unten */
+.ctaband__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(90% 120% at 50% -20%, rgba(255, 255, 255, 0.18), transparent 60%),
+    radial-gradient(120% 90% at 50% 125%, rgba(14, 16, 22, 0.28), transparent 62%);
+}
+
+/* Dezente Korn-Textur (Ersatz für die alte .noise-Klasse) */
+.ctaband__texture {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  opacity: 0.16;
+  mix-blend-mode: soft-light;
+}
+
+/* Winkelklammern (Logo-Motiv) — weiss, halbtransparent */
+.ctaband__bracket {
+  position: absolute;
+  width: clamp(80px, 16vw, 220px);
+  height: clamp(80px, 16vw, 220px);
+  pointer-events: none;
+  opacity: 0.22;
+}
+.ctaband__bracket--tl {
+  top: clamp(22px, 4vw, 52px);
+  left: clamp(22px, 4vw, 52px);
+  border-top: 4px solid #fff;
+  border-left: 4px solid #fff;
+}
+.ctaband__bracket--br {
+  bottom: clamp(22px, 4vw, 52px);
+  right: clamp(22px, 4vw, 52px);
+  border-bottom: 4px solid #fff;
+  border-right: 4px solid #fff;
+}
+
+/* Wandernder Glanz-Streifen */
+.ctaband__shine {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.ctaband__shine::before {
+  content: '';
+  position: absolute;
+  top: -25%;
+  bottom: -25%;
+  left: 0;
+  width: 36%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.06) 35%,
+    rgba(255, 255, 255, 0.14) 50%,
+    rgba(255, 255, 255, 0.06) 65%,
+    transparent 100%
+  );
+  transform: translateX(-130%) skewX(-18deg);
+  animation: ctaband-shine 9s ease-in-out infinite;
+}
+@keyframes ctaband-shine {
+  0%, 42% { transform: translateX(-130%) skewX(-18deg); }
+  88%, 100% { transform: translateX(360%) skewX(-18deg); }
+}
+
+/* Inhalt */
+.ctaband__inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(36px, 5vw, 56px);
+}
+
+.ctaband__title {
+  font-size: clamp(30px, 6.4vw, 76px);
+  line-height: 1.04;
+  letter-spacing: -0.028em;
+  color: #fff;
+  text-wrap: balance;
+  text-shadow: 0 4px 44px rgba(14, 16, 22, 0.22);
+}
+.ctaband__row {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.04em;
+}
+.ctaband__row-inner {
+  display: inline-block;
+  will-change: transform;
+}
+
+.ctaband__btn {
+  padding: 18px 38px;
+  font-size: 16px;
+}
+.ctaband__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 55px -16px rgba(14, 16, 22, 0.5);
+}
+
+@media (max-width: 640px) {
+  .ctaband__bracket { opacity: 0.14; }
+}
+
+@media (max-width: 420px) {
+  .ctaband__title { font-size: clamp(26px, 8vw, 30px); }
+  /* Magnetic-Wrapper mitstrecken, sonst bleibt der Button schmal */
+  .ctaband__action > div { width: 100%; }
+  .ctaband__btn {
+    width: 100%;
+    padding: 16px 26px;
+  }
+}
+
+/* WhatsApp-Glyphe im hellen CTA-Button */
+.ctaband__wa {
+  display: inline-flex;
+  color: #25d366;
+}

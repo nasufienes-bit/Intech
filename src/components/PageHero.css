@@ -1,0 +1,87 @@
+.page-hero {
+  position: relative;
+  padding-top: calc(var(--nav-h) + clamp(48px, 7vw, 90px));
+  padding-bottom: clamp(40px, 6vw, 72px);
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+
+.page-hero__glow--blue { width: 420px; height: 420px; top: -180px; left: -120px; }
+.page-hero__glow--red { width: 380px; height: 380px; top: -160px; right: -100px; }
+
+/* 3D-Tropfen-Layer: rechte Hälfte, weich in die Seite eingeblendet */
+.page-hero__drops {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(56%, 700px);
+  pointer-events: none;
+  mask-image: linear-gradient(90deg, transparent 0%, black 32%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 32%);
+}
+.page-hero__drops canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.page-hero__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.page-hero__crumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.page-hero__crumbs a { transition: color 0.3s var(--ease); }
+.page-hero__crumbs a:hover { color: var(--blue); }
+.page-hero__crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.page-hero__crumb [aria-current] { color: var(--muted-strong); }
+
+.page-hero__title {
+  font-size: clamp(36px, 5.6vw, 72px);
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  max-width: 18ch;
+}
+.page-hero__title-mask {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.04em;
+}
+.page-hero__title-inner { display: inline-block; }
+
+.page-hero--blue .page-hero__title-inner {
+  background: linear-gradient(100deg, var(--text) 30%, var(--blue) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.page-hero--red .page-hero__title-inner {
+  background: linear-gradient(100deg, var(--text) 30%, var(--red) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.page-hero--grad .page-hero__title-inner {
+  background: linear-gradient(100deg, var(--text) 25%, var(--blue) 65%, var(--red) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

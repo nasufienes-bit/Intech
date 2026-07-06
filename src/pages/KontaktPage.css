@@ -1,0 +1,106 @@
+/* ============================================================
+   KontaktPage — Karten-Sektion (Anfahrt / Standort)
+   ============================================================ */
+
+.kontakt-page__map-section {
+  overflow: hidden;
+}
+
+.kontakt-page__map-card {
+  padding: clamp(14px, 2vw, 22px);
+}
+
+/* Karte soll beim Bedienen der Map ruhig bleiben */
+.kontakt-page__map-card:hover {
+  transform: none;
+  box-shadow: var(--shadow-md);
+}
+
+.kontakt-page__map-card:hover .brackets i {
+  --bracket-scale: 1.5;
+}
+
+.kontakt-page__map {
+  display: block;
+  width: 100%;
+  height: clamp(320px, 46vw, 420px);
+  border: 0;
+  border-radius: calc(var(--radius) - 8px);
+  background: var(--bg-3);
+  filter: saturate(0.92);
+  transition: filter 0.6s var(--ease);
+}
+
+.kontakt-page__map-card:hover .kontakt-page__map {
+  filter: saturate(1);
+}
+
+/* ---------- Fusszeile der Karte ---------- */
+
+.kontakt-page__map-foot {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 16px 6px 2px;
+}
+
+.kontakt-page__map-pin {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--blue);
+  background: var(--blue-soft);
+}
+
+.kontakt-page__map-addr {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.kontakt-page__map-route {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--blue);
+  transition: color 0.35s var(--ease);
+}
+
+.kontakt-page__map-route svg {
+  transition: transform 0.35s var(--ease);
+}
+
+.kontakt-page__map-route:hover {
+  color: var(--blue-bright);
+}
+
+.kontakt-page__map-route:hover svg {
+  transform: translateX(4px);
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 520px) {
+  .kontakt-page__map {
+    height: 320px;
+  }
+
+  .kontakt-page__map-foot {
+    align-items: flex-start;
+  }
+
+  .kontakt-page__map-route {
+    margin-left: 50px;
+  }
+}

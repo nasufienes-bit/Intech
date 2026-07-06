@@ -1,0 +1,390 @@
+/* ============================================================
+   REFERENZEN — editorialer Projekt-Showcase (helles Theme)
+   Teaser: Grid mit Panorama-Kachel · Unterseite: Projektzeilen
+   ============================================================ */
+
+/* ---------- Teaser-Grid (Startseite) ---------- */
+.ref__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(18px, 2.4vw, 28px);
+}
+
+.ref__more {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(44px, 5vw, 60px);
+}
+
+/* ---------- Kachel (helle Karte) ----------
+   transform gehört hier exklusiv Framer Motion (whileHover):
+   die transform-Transition der .card-Klasse wird neutralisiert,
+   damit CSS und Framer nicht gegeneinander animieren. */
+.ref-tile {
+  display: flex;
+  flex-direction: column;
+  transition-property: border-color, box-shadow;
+}
+.ref-tile:hover {
+  transform: none;
+}
+.ref-tile--wide {
+  grid-column: 1 / -1;
+}
+
+/* ---------- Bildfläche ---------- */
+.ref-media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  background: var(--bg-3);
+  will-change: clip-path;
+}
+.ref-tile--wide .ref-media {
+  aspect-ratio: 21 / 9;
+  min-height: 300px;
+}
+
+.ref-media__inner {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+.ref-media__inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 1.1s var(--ease);
+}
+.ref-tile:hover .ref-media__inner img,
+.ref-row:hover .ref-media__inner img {
+  transform: scale(1.06);
+}
+
+/* Sanfter Scrim von unten — verankert Index-Nummer im Bild */
+.ref-media__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(14, 16, 22, 0) 46%,
+    rgba(14, 16, 22, 0.12) 70%,
+    rgba(14, 16, 22, 0.42) 100%
+  );
+  opacity: 0.9;
+  transition: opacity 0.6s var(--ease);
+}
+.ref-tile:hover .ref-media__scrim,
+.ref-row:hover .ref-media__scrim {
+  opacity: 1;
+}
+
+/* ---------- Grosse halbtransparente Index-Nummer ---------- */
+.ref-media__index {
+  position: absolute;
+  left: clamp(16px, 2.4vw, 30px);
+  bottom: clamp(4px, 1.2vw, 12px);
+  z-index: 2;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(58px, 7vw, 104px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: rgba(255, 255, 255, 0.2);
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.55);
+  pointer-events: none;
+  user-select: none;
+  transition: color 0.6s var(--ease), -webkit-text-stroke-color 0.6s var(--ease);
+}
+.ref-tile:hover .ref-media__index,
+.ref-row:hover .ref-media__index {
+  color: rgba(255, 255, 255, 0.3);
+  -webkit-text-stroke-color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---------- Pfeil-Chip (Pfeil fährt beim Hover ein) ---------- */
+.ref-media__cta {
+  position: absolute;
+  top: clamp(14px, 2vw, 22px);
+  right: clamp(14px, 2vw, 22px);
+  z-index: 2;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow-sm);
+  color: var(--blue);
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform 0.6s var(--ease), color 0.6s var(--ease),
+    border-color 0.6s var(--ease);
+}
+.ref-media__cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--grad);
+  opacity: 0;
+  transition: opacity 0.6s var(--ease);
+  z-index: -1;
+}
+.ref-media__cta svg {
+  transform: translate(-34px, 34px);
+  opacity: 0;
+  transition: transform 0.6s var(--ease), opacity 0.6s var(--ease);
+}
+.ref-tile:hover .ref-media__cta,
+.ref-row:hover .ref-media__cta {
+  transform: scale(1.08);
+  color: #fff;
+  border-color: transparent;
+}
+.ref-tile:hover .ref-media__cta::before,
+.ref-row:hover .ref-media__cta::before {
+  opacity: 1;
+}
+.ref-tile:hover .ref-media__cta svg,
+.ref-row:hover .ref-media__cta svg {
+  transform: translate(0, 0);
+  opacity: 1;
+}
+
+/* ---------- Textbereich der Teaser-Kachel ---------- */
+.ref-tile__body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  padding: clamp(20px, 2.6vw, 30px);
+}
+.ref-tile--wide .ref-tile__body {
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px 28px;
+}
+
+.ref-tile__name {
+  font-size: clamp(21px, 2.2vw, 28px);
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.ref-tile--wide .ref-tile__name {
+  font-size: clamp(24px, 3vw, 38px);
+}
+.ref-tile__scope {
+  margin-top: 8px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--muted);
+  max-width: 56ch;
+}
+
+/* ---------- Location-Chip ---------- */
+.ref-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  border-radius: 99px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  font-family: var(--font-display);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-strong);
+  white-space: nowrap;
+  transition: border-color 0.5s var(--ease), color 0.5s var(--ease),
+    background-color 0.5s var(--ease);
+}
+.ref-chip svg {
+  color: var(--blue);
+  flex-shrink: 0;
+}
+.ref-tile:hover .ref-chip,
+.ref-row:hover .ref-chip {
+  border-color: var(--line-strong);
+  background: #fff;
+  color: var(--text);
+}
+
+/* ---------- Winkelklammern (Logo-Motiv) beim Hover ---------- */
+.ref-tile__brackets {
+  position: absolute;
+  inset: clamp(12px, 1.8vw, 18px);
+  z-index: 3;
+  opacity: 0;
+  transform: scale(1.04);
+  pointer-events: none;
+  transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+}
+.ref-tile:hover .ref-tile__brackets,
+.ref-row:hover .ref-tile__brackets {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ============================================================
+   Unterseite — grosszügige, alternierende Projektzeilen
+   ============================================================ */
+.ref__rows {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(64px, 8vw, 110px);
+}
+
+.ref-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  gap: clamp(28px, 4.5vw, 72px);
+  align-items: center;
+}
+.ref-row--flip {
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+}
+.ref-row--flip .ref-row__media {
+  order: 2;
+}
+
+.ref-row__media {
+  position: relative;
+}
+.ref-row__media .ref-media {
+  aspect-ratio: 16 / 10;
+}
+.ref-row:hover .ref-row__media {
+  transform: translateY(-6px);
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-lg);
+}
+
+.ref-row__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 18px;
+}
+.ref-row__name {
+  font-size: clamp(28px, 3.4vw, 44px);
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.ref-row__scope {
+  font-size: clamp(15px, 1.5vw, 17.5px);
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 44ch;
+}
+.ref-row__rule-wrap {
+  align-self: stretch;
+}
+.ref-row__rule {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-strong), transparent);
+}
+
+/* Projektbeschreibung */
+.ref-row__desc {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--muted-strong);
+  max-width: 52ch;
+}
+
+/* Fakten-Liste: Zeitraum, Leistungen, Besonderheit */
+.ref-row__facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px 22px;
+  width: 100%;
+}
+.ref-row__fact {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+.ref-row__fact dt {
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.ref-row__fact dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ---------- Responsiv ---------- */
+@media (max-width: 920px) {
+  .ref-row,
+  .ref-row--flip {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .ref-row--flip .ref-row__media {
+    order: -1;
+  }
+  .ref__rows {
+    gap: clamp(56px, 9vw, 80px);
+  }
+}
+
+@media (max-width: 820px) {
+  .ref__grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .ref-tile--wide .ref-media {
+    aspect-ratio: 16 / 10;
+    min-height: 0;
+  }
+  .ref-tile--wide .ref-tile__body {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .ref-media,
+  .ref-tile--wide .ref-media,
+  .ref-row__media .ref-media {
+    aspect-ratio: 4 / 3;
+  }
+  .ref-media__index {
+    font-size: 52px;
+    left: 16px;
+    bottom: 8px;
+  }
+  .ref-media__cta {
+    width: 42px;
+    height: 42px;
+    top: 12px;
+    right: 12px;
+  }
+  .ref-tile__body {
+    padding: 18px 16px 20px;
+  }
+  .ref-tile__scope {
+    font-size: 14px;
+  }
+}

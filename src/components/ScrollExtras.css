@@ -1,0 +1,31 @@
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--grad);
+  transform-origin: left;
+  z-index: 300;
+  pointer-events: none;
+}
+
+.scroll-top {
+  position: fixed;
+  right: clamp(16px, 3vw, 32px);
+  bottom: clamp(16px, 3vw, 32px);
+  z-index: 150;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--grad);
+  color: #fff;
+  box-shadow: 0 14px 34px -10px rgba(36, 64, 208, 0.55);
+  transition: box-shadow 0.4s var(--ease);
+}
+.scroll-top:hover {
+  box-shadow: 0 20px 44px -10px rgba(252, 1, 1, 0.45);
+}

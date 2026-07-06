@@ -1,0 +1,55 @@
+.logo {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5em 0.75em;
+  line-height: 1;
+  user-select: none;
+}
+
+.logo__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.22em;
+}
+
+.logo__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5em;
+  letter-spacing: 0.06em;
+  color: var(--text);
+}
+/* Für den Einsatz auf farbigen/verlaufenden Flächen */
+.logo--inverted .logo__name { color: #fff; }
+
+.logo__sub {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.62em;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+.logo__sanitaer { color: var(--blue-bright); }
+.logo__heizung { color: var(--red); }
+
+.logo__bracket {
+  position: absolute;
+  width: 0.9em;
+  height: 0.9em;
+}
+.logo__bracket--tl {
+  top: 0;
+  left: 0;
+  border-top: 0.14em solid var(--blue);
+  border-left: 0.14em solid var(--blue);
+}
+.logo__bracket--br {
+  bottom: 0;
+  right: 0;
+  border-bottom: 0.14em solid var(--red);
+  border-right: 0.14em solid var(--red);
+}

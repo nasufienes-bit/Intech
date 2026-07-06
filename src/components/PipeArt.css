@@ -1,0 +1,157 @@
+.pipe-art {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+/* Ausserhalb des Viewports: alle Endlos-Loops anhalten (kein Dauer-Repaint) */
+.pipe-art--paused * {
+  animation-play-state: paused !important;
+}
+
+/* Rohr-Schichten */
+.pipe-art__casing {
+  stroke: #c3cadb;
+  stroke-width: 34;
+  stroke-linecap: round;
+}
+.pipe-art__body {
+  stroke: url(#pipe-metal);
+  stroke-width: 27;
+  stroke-linecap: round;
+}
+.pipe-art__flanges rect { fill: #c6cddd; }
+
+/* Wasser im Rohr */
+.pipe-art__water {
+  stroke-width: 14;
+  stroke-linecap: round;
+}
+.pipe-art__water--blue { stroke: var(--blue-bright); }
+.pipe-art__water--red { stroke: var(--red-bright); }
+
+/* Bewegte Highlights = fliessendes Wasser */
+.pipe-art__flow {
+  stroke: rgba(255, 255, 255, 0.6);
+  stroke-width: 5.5;
+  stroke-linecap: round;
+  stroke-dasharray: 16 30;
+  animation: pipe-flow 1.5s linear infinite;
+  opacity: 0;
+  animation-delay: 0s;
+  animation-fill-mode: forwards;
+}
+.pipe-art__flow--in { animation-name: pipe-flow; }
+.pipe-art__flow--offset { stroke-dashoffset: 23; }
+.pipe-art__flow,
+.pipe-art__flow--stream {
+  animation: pipe-appear 0.1s linear 1.9s forwards, pipe-flow 1.5s linear infinite;
+}
+.pipe-art__flow--stream {
+  stroke: rgba(255, 255, 255, 0.75);
+  stroke-width: 4;
+  stroke-dasharray: 10 22;
+  animation: pipe-appear 0.1s linear 2s forwards, pipe-flow 0.8s linear infinite;
+}
+
+@keyframes pipe-appear { to { opacity: 1; } }
+@keyframes pipe-flow { to { stroke-dashoffset: -92; } }
+
+/* Wasserstrahl aus der Mischbatterie */
+.pipe-art__stream {
+  stroke: url(#pipe-mix);
+  stroke-width: 11;
+  stroke-linecap: round;
+  opacity: 0.9;
+}
+
+/* Manometer */
+.pipe-art__gauge-face {
+  fill: #ffffff;
+  stroke: #c3cadb;
+  stroke-width: 3;
+}
+.pipe-art__needle {
+  stroke: var(--blue);
+  stroke-width: 3;
+  stroke-linecap: round;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: pipe-needle 3.6s ease-in-out infinite;
+}
+@keyframes pipe-needle {
+  0%, 100% { transform: rotate(-24deg); }
+  50% { transform: rotate(28deg); }
+}
+
+/* Ventilrad */
+.pipe-art__wheel {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pipe-wheel 16s linear infinite;
+}
+.pipe-art__wheel-rim {
+  fill: #ffffff;
+  stroke: var(--red-bright);
+  stroke-width: 5;
+}
+.pipe-art__wheel-spoke {
+  stroke: var(--red-bright);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+@keyframes pipe-wheel { to { transform: rotate(360deg); } }
+
+/* Mischbatterie-Hebel & Temperatur */
+.pipe-art__lever {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: pipe-lever 5s ease-in-out infinite;
+}
+@keyframes pipe-lever {
+  0%, 100% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+}
+.pipe-art__temp {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  fill: var(--text);
+}
+
+/* Tropfen */
+.pipe-art__drop {
+  fill: var(--blue-bright);
+  opacity: 0;
+}
+.pipe-art__drop--1 { animation: pipe-drop 1.7s ease-in 2.1s infinite; }
+.pipe-art__drop--2 { animation: pipe-drop 1.9s ease-in 2.6s infinite; }
+.pipe-art__drop--3 { animation: pipe-drop 1.5s ease-in 3s infinite; }
+@keyframes pipe-drop {
+  0% { transform: translateY(0); opacity: 0; }
+  15% { opacity: 0.8; }
+  85% { opacity: 0.6; }
+  100% { transform: translateY(80px); opacity: 0; }
+}
+
+/* Wellen im Becken */
+.pipe-art__ripple {
+  fill: none;
+  stroke: rgba(61, 91, 255, 0.4);
+  stroke-width: 2;
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+}
+.pipe-art__ripple--1 { animation: pipe-ripple 2.6s ease-out 2.2s infinite; }
+.pipe-art__ripple--2 { animation: pipe-ripple 2.6s ease-out 3.5s infinite; }
+@keyframes pipe-ripple {
+  0% { transform: scale(0.55); opacity: 0.9; }
+  100% { transform: scale(1.25); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pipe-art__flow, .pipe-art__flow--stream { opacity: 1; animation: none; }
+  .pipe-art__drop { animation: none; }
+}

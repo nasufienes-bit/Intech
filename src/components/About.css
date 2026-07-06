@@ -1,0 +1,342 @@
+/* ============================================================
+   ABOUT — Über uns + Prozess (weisse Sektion, helles System)
+   ============================================================ */
+
+.about {
+  overflow: hidden;
+}
+
+/* Sanfter Farb-Glow hinter der linken Spalte */
+.about__glow {
+  top: 8%;
+  left: -180px;
+  width: 460px;
+  height: 460px;
+  opacity: 0.7;
+}
+
+.about__grid {
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  gap: clamp(56px, 7vw, 110px);
+  align-items: start;
+}
+
+/* Display-Titel in dieser Sektion etwas kompakter,
+   damit "Familienunternehmen." nie überläuft */
+.about .display {
+  font-size: clamp(28px, 3.8vw, 48px);
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+/* ---------- Links: Intro ---------- */
+.about__text {
+  font-size: clamp(16px, 1.5vw, 18px);
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 54ch;
+}
+
+/* Dezenter Link zur Team-Seite */
+.about__team-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  color: var(--blue);
+  transition: color 0.4s var(--ease);
+}
+
+.about__team-link svg {
+  transition: transform 0.4s var(--ease);
+}
+
+.about__team-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 100%;
+  height: 1.5px;
+  background: var(--grad);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s var(--ease);
+}
+
+.about__team-link:hover {
+  color: var(--blue-bright);
+}
+
+.about__team-link:hover svg {
+  transform: translateX(4px);
+}
+
+.about__team-link:hover::after {
+  transform: scaleX(1);
+}
+
+/* ---------- Stats ---------- */
+.about__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(18px, 3vw, 32px);
+  margin-block: clamp(34px, 4vw, 48px);
+  padding-block: clamp(26px, 3vw, 36px);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.about__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.about__stat-value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(38px, 4.4vw, 56px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.about__stat-label {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+/* ---------- Bild mit Brackets-Rahmen ---------- */
+.about__media {
+  position: relative;
+  padding: 16px;
+}
+
+.about__media-frame {
+  position: relative;
+  aspect-ratio: 16 / 11;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-md);
+}
+
+.about__media-frame img {
+  position: absolute;
+  left: 0;
+  top: -11%;
+  width: 100%;
+  height: 122%;
+  object-fit: cover;
+  will-change: transform;
+}
+
+.about__media-caption {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+.about__media-caption::before {
+  content: '';
+  width: 22px;
+  height: 2px;
+  background: var(--grad);
+  flex-shrink: 0;
+}
+
+/* ---------- Rechts: Timeline ---------- */
+.about__timeline-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(26px, 3vw, 38px);
+  letter-spacing: -0.02em;
+  color: var(--text);
+  margin-top: 18px;
+}
+
+.about__steps {
+  position: relative;
+  margin-top: clamp(40px, 5vw, 56px);
+}
+
+/* Verbindende Linie: Track + animierter Gradient-Fortschritt */
+.about__line {
+  position: absolute;
+  left: 28px;
+  top: 30px;
+  bottom: 46px;
+  width: 2px;
+  transform: translateX(-50%);
+  background: var(--line);
+  border-radius: 99px;
+  mask-image: linear-gradient(180deg, black 82%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, black 82%, transparent 100%);
+}
+
+.about__line-progress {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, var(--blue-bright) 0%, var(--violet) 52%, var(--red) 100%);
+  transform-origin: top;
+  border-radius: 99px;
+}
+
+.about__steps-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.about__step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: clamp(18px, 2.5vw, 28px);
+  align-items: start;
+}
+
+.about__step + .about__step {
+  margin-top: clamp(38px, 4.5vw, 56px);
+}
+
+/* Schritt-Nummern: 01 blau → 02 Verlauf → 03 rot */
+.about__step-num {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--bg-2);
+  border: 2px solid currentColor;
+  box-shadow: var(--shadow-sm);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: 0.04em;
+  transition: box-shadow 0.55s var(--ease);
+}
+
+.about__step-num--blue {
+  color: var(--blue);
+}
+
+.about__step-num--red {
+  color: var(--red);
+}
+
+/* Schritt 02: violette Ziffer, Ring im Blau→Rot-Verlauf */
+.about__step-num--grad {
+  color: var(--violet);
+  border-color: transparent;
+  background:
+    linear-gradient(var(--bg-2), var(--bg-2)) padding-box,
+    var(--grad) border-box;
+}
+
+.about__step:hover .about__step-num--blue {
+  box-shadow: 0 12px 32px -10px rgba(36, 64, 208, 0.5);
+}
+.about__step:hover .about__step-num--grad {
+  box-shadow: 0 12px 32px -10px rgba(156, 46, 128, 0.45);
+}
+.about__step:hover .about__step-num--red {
+  box-shadow: 0 12px 32px -10px rgba(252, 1, 1, 0.4);
+}
+
+.about__step-body {
+  padding-top: 6px;
+}
+
+.about__step-title {
+  font-size: clamp(19px, 2vw, 23px);
+  letter-spacing: -0.015em;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+
+.about__step-text {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 46ch;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 960px) {
+  .about__grid {
+    grid-template-columns: 1fr;
+    gap: 72px;
+  }
+
+  .about__text {
+    max-width: 60ch;
+  }
+}
+
+@media (max-width: 640px) {
+  .about__step {
+    grid-template-columns: 46px 1fr;
+  }
+
+  .about__step-num {
+    width: 46px;
+    height: 46px;
+    font-size: 14.5px;
+  }
+
+  .about__line {
+    left: 23px;
+    top: 24px;
+    bottom: 40px;
+  }
+
+  .about__media {
+    padding: 12px;
+  }
+
+  .about__media-frame {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 460px) {
+  .about__stats {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding-block: 0;
+  }
+
+  .about__stat {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 16px;
+  }
+
+  .about__stat + .about__stat {
+    border-top: 1px solid var(--line);
+  }
+
+  .about__stat-value {
+    font-size: 36px;
+  }
+
+  .about__step-text {
+    font-size: 15px;
+  }
+}
