@@ -434,3 +434,20 @@ a.kontaktweg:hover{transform:translateY(-3px);box-shadow:var(--schatten-hoch)}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
   .js .zeig{opacity:1;transform:none}
 }
+
+/* Wasserschaden: es tropft, die Pfütze wächst, Leck wird abgedichtet, Trockner trocknet, Haken */
+.ws .ws-t,.ws .ws-pfuetze,.ws .ws-klemme,.ws .ws-trockner,.ws .ws-luft,.ws .ws-ok{transform-box:fill-box;animation:9s linear infinite paused}
+.ws .ws-t{opacity:0;animation-name:ws-tropf}.ws .ws-t.w2{animation-delay:.4s}.ws .ws-t.w3{animation-delay:.8s}
+.ws .ws-pfuetze{transform-origin:center;animation-name:ws-pfuetze}
+.ws .ws-klemme{transform-origin:center;animation-name:ws-klemme}
+.ws .ws-trockner{transform-origin:center bottom;animation-name:ws-trockner}
+.ws .ws-luft{animation-name:ws-luft}
+.ws .ws-ok{transform-origin:center;animation-name:ws-ok}
+.wasser.da .ws *{animation-play-state:running}
+@keyframes ws-tropf{0%{opacity:0;transform:translateY(0)}1%{opacity:1}9%{opacity:1;transform:translateY(178px)}10%{opacity:0;transform:translateY(178px)}11%{opacity:0;transform:translateY(0)}12%{opacity:1}20%{opacity:1;transform:translateY(178px)}21%{opacity:0;transform:translateY(178px)}22%{opacity:0;transform:translateY(0)}23%{opacity:1}31%{opacity:1;transform:translateY(178px)}32%,100%{opacity:0;transform:translateY(178px)}}
+@keyframes ws-pfuetze{0%{transform:scale(.05,.3);opacity:0}6%{opacity:1}36%,52%{transform:scale(1);opacity:1}82%,100%{transform:scale(0,.3);opacity:0}}
+@keyframes ws-klemme{0%,33%{opacity:0;transform:scale(.4)}37%{opacity:1;transform:scale(1.15)}39%,94%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+@keyframes ws-trockner{0%,42%{opacity:0;transform:translateY(20px) scale(.8)}47%{opacity:1;transform:translateY(0) scale(1.05)}49%,94%{opacity:1;transform:none}100%{opacity:0;transform:none}}
+@keyframes ws-luft{0%,48%{opacity:0;transform:translateX(0)}55%{opacity:1}64%{opacity:.2;transform:translateX(-12px)}65%{opacity:0;transform:translateX(0)}70%{opacity:1}80%{opacity:.2;transform:translateX(-12px)}82%,100%{opacity:0}}
+@keyframes ws-ok{0%,82%{opacity:0;transform:scale(.3)}86%{opacity:1;transform:scale(1.15)}88%,94%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.ws .ws-t,.ws .ws-luft{display:none}.ws .ws-pfuetze{opacity:0}.ws .ws-klemme,.ws .ws-trockner,.ws .ws-ok{animation:none;opacity:1;transform:none}}
