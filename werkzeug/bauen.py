@@ -74,7 +74,7 @@ FUSS = f'''  </main>
     <div class="wrap">
       <div class="fuss-raster">
         <div>{LOGO}<p style="margin-top:16px;max-width:300px">Sanitär, Heizung und Reparaturservice. Familienunternehmen aus Winterthur, seit 2010.</p></div>
-        <div class="links"><h4>Leistungen</h4><a href="/sanitaer/">Sanitär</a><a href="/heizung/">Heizung</a><a href="/reparaturservice/">Reparaturservice</a><a href="/reparaturservice/#notfall">Notfalldienst 24/7</a></div>
+        <div class="links"><h4>Leistungen</h4><a href="/sanitaer/">Sanitär</a><a href="/heizung/">Heizung</a><a href="/reparaturservice/">Reparaturservice</a><a href="/reparaturservice/#wasserschaden">Wasserschaden</a><a href="/reparaturservice/#notfall">Notfalldienst 24/7</a></div>
         <div class="links"><h4>Intech</h4><a href="/referenzen/">Referenzen</a><a href="/ueber-uns/">Über uns</a><a href="/ueber-uns/#stellen">Offene Stellen</a><a href="/kontakt/">Kontakt</a></div>
         <div class="links"><h4>Kontakt</h4><a href="{TEL_LINK}">{TEL}</a><a href="mailto:{MAIL}">{MAIL}</a><a href="{GOOGLE}" target="_blank" rel="noopener">{ADR}</a></div>
       </div>
@@ -166,7 +166,7 @@ WEG = [
    '<g class="ploppt" style="--v:1.6s"><path d="M270 100h26v16" stroke="#0c0f1a" stroke-width="6" fill="none" stroke-linecap="round"/><rect x="286" y="116" width="20" height="8" rx="4" fill="#0c0f1a"/></g>'
    '<g fill="#3d5bff"><rect class="tropf" x="294" y="130" width="4" height="10" rx="2"/><rect class="tropf t2" x="294" y="130" width="4" height="10" rx="2"/></g>'
    '<g class="ploppt" style="--v:2s"><rect x="320" y="134" width="56" height="40" rx="6" fill="#fff" stroke="#0c0f1a" stroke-width="3"/><path d="M332 140v28M344 140v28M356 140v28M368 140v28" stroke="#fbd5d2" stroke-width="4"/></g>'),
-  ('Betreuen', 'Auch nach der Arbeit sind wir für Sie da: mit Service, Piquetdienst und einem Notfalldienst rund um die Uhr.',
+  ('Betreuen', 'Auch nach der Arbeit sind wir für Sie da: mit Service, Pikettdienst und einem Notfalldienst rund um die Uhr.',
    '<g transform="translate(130 40) scale(1.4)">' + UHR_SVG.replace('<svg class="uhr" viewBox="0 0 100 100" aria-hidden="true">', '<g class="uhr">').replace('</svg>', '</g>') + '</g>'
    '<text x="200" y="262" text-anchor="middle" style="font:700 30px \'Space Grotesk\',sans-serif;fill:#e3261b;letter-spacing:.02em">24/7</text>'),
 ]
@@ -268,10 +268,10 @@ TAGNACHT = '''<svg viewBox="0 0 400 300" role="img" aria-label="Tag und Nacht un
     <circle cx="110" cy="262" r="11" fill="#0c0f1a"/><circle cx="210" cy="262" r="11" fill="#0c0f1a"/><rect x="120" y="206" width="16" height="8" rx="3" fill="#e3261b"/></g>
 </svg>'''
 
-KALENDER = '''<svg viewBox="0 0 400 300" role="img" aria-label="Piquetdienst: auch am Wochenende erreichbar">
+KALENDER = '''<svg viewBox="0 0 400 300" role="img" aria-label="Pikettdienst: auch am Wochenende erreichbar">
   <rect width="400" height="300" rx="18" fill="#f2f4fb"/>
   <rect x="60" y="50" width="280" height="210" rx="16" fill="#fff" stroke="#0c0f1a" stroke-width="3"/><rect x="60" y="50" width="280" height="44" rx="16" fill="#2440d0"/><rect x="60" y="78" width="280" height="16" fill="#2440d0"/>
-  <text x="200" y="79" text-anchor="middle" style="font:700 15px 'Space Grotesk',sans-serif;fill:#fff;letter-spacing:.14em">PIQUETDIENST</text>
+  <text x="200" y="79" text-anchor="middle" style="font:700 15px 'Space Grotesk',sans-serif;fill:#fff;letter-spacing:.14em">PIKETTDIENST</text>
 ''' + ''.join(f'<text x="{92 + i*36}" y="122" text-anchor="middle" style="font:600 11px \'Space Grotesk\',sans-serif;fill:#8a90a0">{d}</text>' for i, d in enumerate(['MO', 'DI', 'MI', 'DO', 'FR', 'SA', 'SO'])) + ''.join(
   f'<g class="ploppt" style="--v:{.15*i:.2f}s"><rect x="{78 + (i%7)*36}" y="{134 + (i//7)*40}" width="28" height="28" rx="8" fill="{"#e3261b" if i % 7 >= 5 else "#edf0ff"}"/></g>' for i in range(21)) + '''
 </svg>'''
@@ -280,6 +280,20 @@ UHR_GROSS = f'''<svg viewBox="0 0 400 300" role="img" aria-label="Notfalldienst 
   <rect width="400" height="300" rx="18" fill="#f2f4fb"/>
   <g transform="translate(110 40) scale(1.8)">{UHR_SVG.replace('<svg class="uhr" viewBox="0 0 100 100" aria-hidden="true">', '<g class="uhr">').replace('</svg>', '</g>')}</g>
   <text x="310" y="150" style="font:700 40px 'Space Grotesk',sans-serif;fill:#e3261b">24/7</text>
+</svg>'''
+
+WASSERSCHADEN = '''<svg viewBox="0 0 400 300" role="img" aria-label="Wasserschaden: Leck stoppen, Wasser absaugen, trocknen">
+  <rect width="400" height="300" rx="18" fill="#f2f4fb"/>
+  <path d="M20 40H380" stroke="#0c0f1a" stroke-width="14" stroke-linecap="round"/><path d="M20 40H380" stroke="#dbe2f7" stroke-width="8" stroke-linecap="round"/>
+  <rect x="120" y="28" width="30" height="24" rx="5" fill="#fff" stroke="#0c0f1a" stroke-width="3"/>
+  <g fill="#3d5bff"><rect class="tropf" x="132" y="58" width="5" height="12" rx="2.5"/><rect class="tropf t2" x="132" y="58" width="5" height="12" rx="2.5"/><rect class="tropf t3" x="132" y="58" width="5" height="12" rx="2.5"/></g>
+  <path d="M20 250H380" stroke="#0c0f1a" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="140" cy="250" rx="90" ry="10" fill="#3d5bff" opacity=".35"/><ellipse cx="140" cy="250" rx="54" ry="6" fill="#3d5bff" opacity=".45"/>
+  <path class="zeichne" style="--l:200" d="M60 170c0-14 12-14 12 0s12 14 12 0 12-14 12 0 12 14 12 0" fill="none" stroke="#8ea0ff" stroke-width="4" stroke-linecap="round"/>
+  <g class="ploppt" style="--v:.8s"><rect x="262" y="160" width="74" height="90" rx="10" fill="#fff" stroke="#0c0f1a" stroke-width="3"/><path d="M274 176h50M274 188h50M274 200h50" stroke="#e1e5ee" stroke-width="5" stroke-linecap="round"/><circle cx="299" cy="226" r="11" fill="#f2f4fb" stroke="#0c0f1a" stroke-width="2"/>
+    <g class="rotor"><path d="M299 226c0-7 5-8 6-5s-3 5-6 5Zm0 0c6 3 4 8 1 8s-1-5-1-8Zm0 0c-6 3-9 0-7-3s5 0 7 3Z" fill="#2440d0"/></g></g>
+  <text x="299" y="148" text-anchor="middle" style="font:600 11px 'Space Grotesk',sans-serif;letter-spacing:.12em;fill:#8a90a0">TROCKNER</text>
+  <g class="ploppt" style="--v:1.8s"><circle cx="360" cy="90" r="24" fill="#16a06c"/><path d="M349 90l8 8 14-16" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g>
 </svg>'''
 
 VORHER = '''<svg viewBox="0 0 640 440" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -353,7 +367,7 @@ def notfallband():
     <section class="abschnitt eng">
       <div class="wrap">
         <div class="notfall zeig anim">{UHR_SVG}
-          <div><p class="label rot"><i></i>Notfalldienst 24/7</p><h2>Rohrbruch? Heizung aus? Wir sind Tag und Nacht für Sie da.</h2><p>Rufen Sie direkt an. Wir kommen so schnell wie möglich.</p></div>
+          <div><p class="label rot"><i></i>Notfalldienst 24/7</p><h2>Wasserschaden? Heizung aus? Wir sind Tag und Nacht für Sie da.</h2><p>Auch bei Wasserschaden: Rufen Sie direkt an. Wir kommen so schnell wie möglich.</p></div>
           <div class="knoepfe"><a href="{TEL_LINK}" class="btn btn-rot"><span class="punkt-live" style="background:#fff"></span>{TEL}</a></div>
         </div>
       </div>
@@ -364,7 +378,7 @@ def notfallband():
 THEMEN = [
   ('/sanitaer/', 'sanitaer', 'Sanitär', 'Neue Bäder, Neubauten und alles, was mit Wasser zu tun hat. Sauber geplant und installiert.', ['Badumbau', 'Neubau', 'Service'], ''),
   ('/heizung/', 'heizung', 'Heizung', 'Wärmepumpen statt Ölkessel, Solar vom eigenen Dach und schnelle Hilfe, wenn die Heizung streikt.', ['Wärmepumpe', 'Kesselsanierung', 'Solar', 'Reparatur'], ' warm'),
-  ('/reparaturservice/', 'reparatur', 'Reparaturservice', 'Reparaturen, Piquetdienst und ein Notfalldienst rund um die Uhr. Wir lassen Sie nicht im Kalten stehen.', ['Reparaturen', 'Piquetdienst', 'Notfall 24/7'], ''),
+  ('/reparaturservice/', 'reparatur', 'Reparaturservice', 'Reparaturen, Hilfe bei Wasserschäden, Pikettdienst und ein Notfalldienst rund um die Uhr. Wir lassen Sie nicht im Kalten stehen.', ['Reparaturen', 'Wasserschaden', 'Pikettdienst', 'Notfall 24/7'], ''),
 ]
 themen_html = '<div class="themen">' + ''.join(
   f'<a class="thema zeig{k}{" v" + str(i) if i else ""}" href="{h}">{themenbild(art)}<h3>{t}</h3><p>{p}</p><div class="chips">{"".join("<span>" + c + "</span>" for c in ch)}</div><span class="weiter">Mehr erfahren <span>→</span></span></a>'
@@ -416,7 +430,7 @@ start = f'''
       </div>
     </section>
 {bewertungen()}{band()}'''
-seite('/', 'Intech Sanitär GmbH: Sanitär, Heizung und Reparaturservice in Winterthur', 'Intech Sanitär aus Winterthur: Badumbau, Neubau, Wärmepumpe, Kesselsanierung, Solar, Reparaturen, Piquetdienst und Notfalldienst 24/7.', start,
+seite('/', 'Intech Sanitär GmbH: Sanitär, Heizung und Reparaturservice in Winterthur', 'Intech Sanitär aus Winterthur: Badumbau, Neubau, Wärmepumpe, Kesselsanierung, Solar, Reparaturen, Wasserschaden, Pikettdienst und Notfalldienst 24/7.', start,
       extra=f'  <script type="application/ld+json">{json.dumps(LD, ensure_ascii=False)}</script>\n')
 
 # ================================================================ Themenseiten
@@ -514,19 +528,24 @@ kontaktstreifen = f'''
     </section>
 '''
 reparatur, reparatur_ld = themenseite('/reparaturservice/', 'Reparaturservice', 'Wir lassen Sie nicht im Kalten stehen.',
-  'Reparaturen an Sanitär und Heizung, Piquetdienst und ein Notfalldienst rund um die Uhr. Ein Anruf genügt.',
+  'Reparaturen an Sanitär und Heizung, Hilfe bei Wasserschäden, Pikettdienst und ein Notfalldienst rund um die Uhr. Ein Anruf genügt.',
   UHR_GROSS,
-  [('reparaturen', 'Reparaturen'), ('piquet', 'Piquetdienst'), ('notfall', 'Notfall 24/7')],
+  [('reparaturen', 'Reparaturen'), ('wasserschaden', 'Wasserschaden'), ('pikett', 'Pikettdienst'), ('notfall', 'Notfall 24/7')],
   [('reparaturen', '01 / REPARATUREN', 'Schnell gefunden, sauber repariert.',
     'Tropfende Leitungen, verstopfte Abläufe, ein defekter Boiler oder eine Heizung, die nicht warm wird: Wir kommen mit dem passenden Material und beheben den Fehler.',
     ['Sanitär: Leitungen, Armaturen, WC, Abläufe', 'Heizung: Störungen, Heizkörper, Wärmepumpe', 'Boiler und Warmwasser', 'Klarer Rapport nach dem Einsatz'],
     karte(LECK, '<small>Leck gefunden, abgedichtet, erledigt.</small>', 'leck'), False,
     f'<a href="{WA}" class="btn btn-wa" target="_blank" rel="noopener">{WA_ICON}WhatsApp schreiben</a>'),
-   ('piquet', '02 / PIQUETDIENST', 'Erreichbar, auch wenn andere Feierabend haben.',
-    'Mit unserem Piquetdienst ist auch am Abend, am Wochenende und an Feiertagen jemand für Sie erreichbar. Ideal für Verwaltungen, Gewerbe und Liegenschaften.',
+   ('wasserschaden', '02 / WASSERSCHADEN', 'Wasser, wo es nicht hingehört? Wir handeln sofort.',
+    'Bei einem Wasserschaden zählt jede Stunde. Wir finden und stoppen das Leck, saugen das Wasser ab, stellen Trockner auf und reparieren die Leitung. Auf Wunsch dokumentieren wir alles für Ihre Versicherung.',
+    ['Leck orten und sofort stoppen', 'Wasser absaugen und Bautrocknung', 'Leitungen fachgerecht reparieren', 'Fotos und Rapport für die Versicherung'],
+    karte(WASSERSCHADEN, '<small>Leck gestoppt, Wasser weg, Raum wird getrocknet.</small>'), False,
+    f'<a href="{TEL_LINK}" class="btn btn-rot"><span class="punkt-live" style="background:#fff"></span>{TEL}</a>'),
+   ('pikett', '03 / PIKETTDIENST', 'Erreichbar, auch wenn andere Feierabend haben.',
+    'Mit unserem Pikettdienst ist auch am Abend, am Wochenende und an Feiertagen jemand für Sie erreichbar. Ideal für Verwaltungen, Gewerbe und Liegenschaften.',
     ['Abends, am Wochenende und an Feiertagen', 'Für Verwaltungen und Gewerbe', 'Ein fester Ansprechpartner'],
     karte(KALENDER, '<small>Auch Samstag und Sonntag sind wir da.</small>'), False, ''),
-   ('notfall', '03 / NOTFALLDIENST 24/7', 'Rohrbruch um Mitternacht? Wir kommen.',
+   ('notfall', '04 / NOTFALLDIENST 24/7', 'Rohrbruch um Mitternacht? Wir kommen.',
     'Bei Wasserschaden, Rohrbruch oder Heizungsausfall sind wir rund um die Uhr für Sie da, 365 Tage im Jahr. Rufen Sie direkt an.',
     ['Rund um die Uhr erreichbar', 'Schnell vor Ort in der Region Winterthur und Zürich', 'Erste Hilfe gegen Wasserschäden'],
     karte(TAGNACHT, '<small>Tag und Nacht unterwegs zu Ihnen.</small>'), True,
@@ -534,9 +553,10 @@ reparatur, reparatur_ld = themenseite('/reparaturservice/', 'Reparaturservice', 
   'Reparaturservice',
   [('Wie schnell sind Sie im Notfall vor Ort?', 'In der Region Winterthur und Zürich in der Regel innert weniger Stunden. Rufen Sie uns direkt an.'),
    ('Was kostet ein Serviceeinsatz?', 'Wir rechnen transparent nach Aufwand ab und nennen Ihnen die Ansätze vorab. Ohne versteckte Kosten.'),
+   ('Hilft Intech auch bei der Versicherung?', 'Ja. Wir halten den Schaden mit Fotos und einem Rapport fest. Diese Unterlagen können Sie direkt Ihrer Versicherung weitergeben.'),
    ('Kann ich Ihnen ein Foto vom Schaden schicken?', 'Ja, am einfachsten per WhatsApp. So können wir oft schon vorab sagen, was es braucht.')],
   'Etwas kaputt?', 'Rufen Sie an oder schreiben Sie uns. Wir helfen schnell.', kontaktstreifen)
-seite('/reparaturservice/', 'Reparaturservice, Piquetdienst und Notfalldienst 24/7 | Intech Sanitär', 'Reparaturen an Sanitär und Heizung, Piquetdienst und Notfalldienst rund um die Uhr von Intech Sanitär in Winterthur und Zürich.', reparatur, '/reparaturservice/', reparatur_ld)
+seite('/reparaturservice/', 'Reparaturservice, Pikettdienst und Notfalldienst 24/7 | Intech Sanitär', 'Reparaturen an Sanitär und Heizung, Pikettdienst und Notfalldienst rund um die Uhr von Intech Sanitär in Winterthur und Zürich.', reparatur, '/reparaturservice/', reparatur_ld)
 
 # ================================================================ Referenzen
 vitrinen = ''.join(f'''<article class="vitrine{" umgekehrt" if i % 2 else ""}" id="{a}">

@@ -142,7 +142,7 @@ a = re.sub(r"    var ICON = \{.*?\n    \};\n", """    var ICON = {
     };
 """, a, flags=re.S)
 a = re.sub(r"    var gruppe = function\(a\)\{.*?\};\n",
-           "    var gruppe = function(a){ a = (a.art || '') + ' ' + ((a.daten || {}).Anliegen || ''); return /Sanitär|Neubau|Umbau|Bad/.test(a) ? 'sanitaer' : /Heizung|Wärme|Solar|Sanierung/.test(a) ? 'heizung' : /Reparatur|Service|Notfall|Piquet/.test(a) ? 'reparatur' : 'kontakt'; };\n", a, flags=re.S)
+           "    var gruppe = function(a){ a = (a.art || '') + ' ' + ((a.daten || {}).Anliegen || ''); return /Sanitär|Neubau|Umbau|Bad/.test(a) ? 'sanitaer' : /Heizung|Wärme|Solar|Sanierung/.test(a) ? 'heizung' : /Reparatur|Service|Notfall|Pikett|Wasserschaden/.test(a) ? 'reparatur' : 'kontakt'; };\n", a, flags=re.S)
 a = ers(a, "return d['PLZ und Ort'] || d['Ort oder Region'] || d.Adresse || '';", "return d.Ort || d['PLZ und Ort'] || d.Adresse || '';")
 assert 'nasuvia' not in a.lower().replace('nasufienes', ''), 'Nasuvia im Admin übrig'
 (A / 'index.html').write_text(a)
