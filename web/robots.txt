@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /buchhaltung/
 
 Sitemap: https://www.intech-sanitaer.ch/sitemap.xml

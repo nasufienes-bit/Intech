@@ -62,6 +62,15 @@
 
   // Formular: prüfen und per E-Mail an Intech senden
   var ZIEL = 'https://formsubmit.co/ajax/info@intech-sanitaer.ch';
+  // Zusätzlich in den Admin-Bereich: Besucher dürfen dort nur eintragen, nicht lesen
+  var SB = window.INTECH_SB || {};
+  var imAdmin = function(nr, d){
+    if (!SB.url || /PLATZHALTER/.test(SB.url)) return Promise.resolve(false);
+    return fetch(SB.url + '/rest/v1/anfragen', { method: 'POST', headers: { apikey: SB.schluessel, 'Content-Type': 'application/json', Prefer: 'return=minimal' },
+      body: JSON.stringify({ art: 'Anfrage: ' + (d.Anliegen || 'Website'), nummer: nr, name: d.Name || '', email: d['E-Mail'] || '', telefon: d.Telefon || '', daten: d }) })
+      .then(function(r){ return r.ok; }).catch(function(){ return false; });
+  };
+  var nummer = function(){ var x = new Date(), z = function(n){ return ('0' + n).slice(-2); }; return 'IN-' + String(x.getFullYear()).slice(2) + z(x.getMonth() + 1) + z(x.getDate()) + '-' + (100 + Math.floor(Math.random() * 900)); };
   $$('form[data-form]').forEach(function(form){
     var inhalt = $('[data-form-inhalt]', form);
     var gewaehlt = function(n){ var e = form.querySelector('[name="' + n + '"]:checked'); return e ? e.value : ''; };
@@ -105,11 +114,15 @@
       $('[data-mail]', form).href = 'mailto:info@intech-sanitaer.ch?subject=' + encodeURIComponent('Anfrage ' + (d.Anliegen || '')) + '&body=' + encodeURIComponent(text);
       var knopf = $('[type=submit]', form);
       knopf.classList.add('senden-laeuft');
-      var last = Object.assign({ _subject: 'Anfrage über die Website: ' + (d.Anliegen || '') + (d.Name ? ', ' + d.Name : ''), _template: 'table', _replyto: d['E-Mail'] || '' }, d);
-      fetch(ZIEL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(last) })
+      var nr = nummer();
+      var last = Object.assign({ _subject: 'Anfrage ' + nr + ': ' + (d.Anliegen || '') + (d.Name ? ', ' + d.Name : ''), _template: 'table', _replyto: d['E-Mail'] || '', Nummer: nr }, d);
+      var perMail = fetch(ZIEL, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(last) })
         .then(function(r){ return r.json(); })
-        .then(function(a){ ende(String(a && a.success) === 'true'); })
-        .catch(function(){ ende(false); })
+        .then(function(a){ return String(a && a.success) === 'true'; })
+        .catch(function(){ return false; });
+      // Angekommen ist die Anfrage, wenn sie per E-Mail oder im Admin-Bereich gelandet ist
+      Promise.all([perMail, imAdmin(nr, d)])
+        .then(function(e){ ende(e[0] || e[1]); })
         .then(function(){ knopf.classList.remove('senden-laeuft'); });
     });
     // Vorwahl über die Adresse, zum Beispiel /kontakt/?anliegen=Umbau

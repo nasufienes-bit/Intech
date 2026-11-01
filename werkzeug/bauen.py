@@ -1,6 +1,6 @@
 """Baut die neue, schlichte Website von Intech Sanitär (statisches HTML)."""
 import json, pathlib, html as H
-W = pathlib.Path.home() / 'Nasuvia/Intech/web'
+W = pathlib.Path(__file__).resolve().parent.parent / 'web'
 TEL, TEL_LINK, MAIL = '+41 78 244 71 19', 'tel:+41782447119', 'info@intech-sanitaer.ch'
 ADR = 'Tössfeldstrasse 37, 8406 Winterthur'
 GOOGLE = 'https://www.google.com/maps/place/Intech+Sanit%C3%A4r+GmbH/@47.4914904,8.7156996,17z/data=!4m6!3m5!1s0x479a9932637f8381:0x866c5301cdf9ad9b!8m2!3d47.4914904!4d8.7156996!16s%2Fg%2F11l66t1w9q'
@@ -92,9 +92,10 @@ FUSS = f'''  </main>
         <div><h4>Intech</h4><a href="/referenzen/">Referenzen</a><a href="/ueber-uns/">Über uns</a><a href="/ueber-uns/#stellen">Offene Stellen</a><a href="/kontakt/">Kontakt</a></div>
         <div><h4>Kontakt</h4><a href="{TEL_LINK}">{TEL}</a><a href="mailto:{MAIL}">{MAIL}</a><a href="{GOOGLE}" target="_blank" rel="noopener">{ADR}</a></div>
       </div>
-      <div class="fuss-unten"><span>© 2026 Intech Sanitär GmbH</span><nav><a href="/impressum/">Impressum</a><a href="/datenschutz/">Datenschutz</a></nav></div>
+      <div class="fuss-unten"><span>© 2026 Intech Sanitär GmbH</span><nav><a href="/impressum/">Impressum</a><a href="/datenschutz/">Datenschutz</a><a href="/admin/" rel="nofollow">Login</a></nav></div>
     </div>
   </footer>
+  <script src="/js/zugang.js?v={V}"></script>
   <script src="/js/site.js?v={V}" defer></script>
 '''
 
@@ -598,7 +599,7 @@ d.unlink(); d.parent.rmdir()
 for alt, neu in {'leistungen/neubau': '/neubau/', 'leistungen/umbau': '/umbau/', 'leistungen/service': '/sanierung/#service', 'team': '/ueber-uns/'}.items():
     p = W / alt / 'index.html'; p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(f'<!doctype html>\n<html lang="de-CH"><head><meta charset="UTF-8"><title>Intech Sanitär</title><meta name="robots" content="noindex"><link rel="canonical" href="https://www.intech-sanitaer.ch{neu.split("#")[0]}"><meta http-equiv="refresh" content="0; url={neu}"></head><body><a href="{neu}">Weiter</a></body></html>\n')
-(W / 'robots.txt').write_text('User-agent: *\nAllow: /\n\nSitemap: https://www.intech-sanitaer.ch/sitemap.xml\n')
+(W / 'robots.txt').write_text('User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /buchhaltung/\n\nSitemap: https://www.intech-sanitaer.ch/sitemap.xml\n')
 (W / 'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + ''.join(
   f'  <url><loc>https://www.intech-sanitaer.ch{p}</loc></url>\n' for p in ['/', '/neubau/', '/umbau/', '/sanierung/', '/referenzen/', '/ueber-uns/', '/kontakt/', '/impressum/', '/datenschutz/']) + '</urlset>\n')
 print('fertig')
