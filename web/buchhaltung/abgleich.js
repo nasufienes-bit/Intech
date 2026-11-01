@@ -1,8 +1,8 @@
 // Abgleich mit Supabase: Login und automatisches Hoch- und Herunterladen.
 // Lokal bleibt alles in IndexedDB; Supabase hält die gemeinsame Fassung für iPhone und Mac.
 (() => {
-  const URL_PROJEKT = 'https://PLATZHALTER.supabase.co';
-  const SCHLUESSEL = 'sb_publishable_PLATZHALTER';
+  const URL_PROJEKT = 'https://rqdgjthyghypfbvpccuu.supabase.co';
+  const SCHLUESSEL = 'sb_publishable_lMMadqJDWc9y1vZnLUFYJw_mBvqFRVC';
   const ARTEN = ['buchungen', 'belege', 'einstellungen'];
   const K_SEIT = 'nb.abgleich.seit';
   const K_ZULETZT = 'nb.abgleich.zuletzt';

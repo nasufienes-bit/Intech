@@ -3,8 +3,8 @@
 // Rechnungen, Entwürfe, Kunden und Zahlungsempfänger liegen auf dem Gerät (IndexedDB)
 // und gleichen sich über Supabase mit allen Geräten ab. Die PDFs liegen privat im Speicher „belege“.
 (() => {
-  const URL_PROJEKT = 'https://PLATZHALTER.supabase.co';
-  const SCHLUESSEL = 'sb_publishable_PLATZHALTER';
+  const URL_PROJEKT = 'https://rqdgjthyghypfbvpccuu.supabase.co';
+  const SCHLUESSEL = 'sb_publishable_lMMadqJDWc9y1vZnLUFYJw_mBvqFRVC';
   const KEY_KUNDEN = 'nasuvia.kunden.v1';
   const KEY_EMPF = 'nasuvia.empfaenger.v1';
   const K_SEIT = 'nr.abgleich.seit';
