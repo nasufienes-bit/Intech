@@ -23,11 +23,36 @@
     var o = new IntersectionObserver(function(es){ if (es[0].isIntersecting) { o.disconnect(); fn(); } }, { threshold: schwelle || 0, rootMargin: '0px 0px -8% 0px' });
     o.observe(el);
   };
-  $$('.zeig, .rahmen, .nb').forEach(function(el){ sichtbar(el, function(){ el.classList.add('da'); }, .15); });
+  $$('.zeig, .ecken, .anim, .nb').forEach(function(el){ sichtbar(el, function(){ el.classList.add('da'); }, .15); });
+
+  // Scroll-Geschichte: der Schritt in der Bildschirmmitte bestimmt das Bild; auf dem Handy hat jeder Schritt sein eigenes
+  var schritte = $$('.weg-schritt');
+  if (schritte.length) {
+    var szenen = $$('.weg-buehne .szene'), striche = $$('.weg-zaehler i');
+    schritte.forEach(function(s, i){
+      if (!szenen[i]) return;
+      var mini = document.createElement('div');
+      mini.className = 'weg-mini'; mini.setAttribute('aria-hidden', 'true');
+      var k = szenen[i].cloneNode(true); k.classList.remove('an');
+      mini.appendChild(k); s.insertBefore(mini, s.firstChild);
+    });
+    var setze = function(i){
+      schritte.forEach(function(s, n){ s.classList.toggle('an', n === i); });
+      szenen.forEach(function(s, n){ s.classList.toggle('an', n === i); });
+      striche.forEach(function(s, n){ s.classList.toggle('an', n <= i); });
+    };
+    if ('IntersectionObserver' in window) {
+      var wo = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) setze(schritte.indexOf(e.target)); }); }, { rootMargin: '-45% 0px -45% 0px' });
+      schritte.forEach(function(s){ wo.observe(s); });
+      var mo = new IntersectionObserver(function(es){ es.forEach(function(e){ e.target.classList.toggle('an', e.isIntersecting); }); }, { threshold: .35 });
+      $$('.weg-mini').forEach(function(m){ mo.observe(m); });
+    }
+    setze(0);
+  }
 
   // Kesselsanierung: alter Ölkessel geht, Wärmepumpe kommt
   $$('.ks').forEach(function(s){
-    var knopf = $('[data-ks]', s.closest('.szene'));
+    var knopf = $('[data-ks]', s.closest('.szene-karte'));
     var setze = function(n){ s.classList.toggle('nachher', n); if (knopf) knopf.textContent = n ? 'Nochmals ansehen' : 'Kessel ersetzen'; };
     sichtbar(s, function(){ setTimeout(function(){ setze(true); }, ruhig ? 0 : 1600); }, .4);
     if (knopf) knopf.addEventListener('click', function(){
