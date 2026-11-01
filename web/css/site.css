@@ -451,3 +451,17 @@ a.kontaktweg:hover{transform:translateY(-3px);box-shadow:var(--schatten-hoch)}
 @keyframes ws-luft{0%,48%{opacity:0;transform:translateX(0)}55%{opacity:1}64%{opacity:.2;transform:translateX(-12px)}65%{opacity:0;transform:translateX(0)}70%{opacity:1}80%{opacity:.2;transform:translateX(-12px)}82%,100%{opacity:0}}
 @keyframes ws-ok{0%,82%{opacity:0;transform:scale(.3)}86%{opacity:1;transform:scale(1.15)}88%,94%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){.ws .ws-t,.ws .ws-luft{display:none}.ws .ws-pfuetze{opacity:0}.ws .ws-klemme,.ws .ws-trockner,.ws .ws-ok{animation:none;opacity:1;transform:none}}
+
+/* Neubau: Leitungen zeichnen sich, Bodenheizung wird warm, Geräte erscheinen, dann fliesst das Wasser */
+.nb .leitung{fill:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:var(--l);stroke-dashoffset:var(--l);transition:stroke-dashoffset 2.2s var(--ease)}
+.nb .kalt{stroke:var(--blau-hell)}.nb .warm{stroke:var(--rot)}
+.nb .boden{fill:none;stroke:var(--rot);stroke-width:2.5;opacity:.55;stroke-dasharray:var(--l);stroke-dashoffset:var(--l);transition:stroke-dashoffset 2.6s var(--ease) 1s}
+.nb .geraet{opacity:0;transform:scale(.6);transform-box:fill-box;transform-origin:center;transition:opacity .5s,transform .6s cubic-bezier(.3,1.6,.5,1)}
+.nb .nbfluss{opacity:0;stroke-dasharray:3 9;transition:opacity .6s 2.6s;animation:fliessen .9s linear infinite paused}
+.nb.da .leitung,.nb.da .boden{stroke-dashoffset:0}
+.nb.da .geraet{opacity:1;transform:none}
+.nb.da .g1{transition-delay:1.2s}.nb.da .g2{transition-delay:1.5s}.nb.da .g3{transition-delay:1.8s}
+.nb.da .nbfluss{opacity:.85;animation-play-state:running}
+.nb.da .boden{animation:nb-warm 2.4s ease-in-out 3.6s infinite alternate}
+@keyframes nb-warm{to{opacity:1;stroke-width:3.2}}
+@media (prefers-reduced-motion:reduce){.nb .leitung,.nb .boden{stroke-dashoffset:0;transition:none}.nb .geraet{opacity:1;transform:none;transition:none}.nb .nbfluss{display:none}.nb.da .boden{animation:none}}

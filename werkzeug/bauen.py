@@ -6,7 +6,7 @@ TEL, TEL_LINK, MAIL = '+41 78 244 71 19', 'tel:+41782447119', 'info@intech-sanit
 ADR = 'Tössfeldstrasse 37, 8406 Winterthur'
 WA = 'https://wa.me/41782447119?text=' + 'Guten%20Tag%2C%20ich%20brauche%20Hilfe%20bei%20einer%20Reparatur.'
 GOOGLE = 'https://www.google.com/maps/place/Intech+Sanit%C3%A4r+GmbH/@47.4914904,8.7156996,17z/data=!4m6!3m5!1s0x479a9932637f8381:0x866c5301cdf9ad9b!8m2!3d47.4914904!4d8.7156996!16s%2Fg%2F11l66t1w9q'
-V = '3'
+V = '4'
 PFEIL = '<span class="pfeil" aria-hidden="true">→</span>'
 LABEL = lambda t, k='': f'<p class="label{k}"><i></i>{t}</p>'
 
@@ -336,6 +336,7 @@ NEUBAU = '''<svg class="nb" viewBox="0 0 520 400" role="img" aria-label="Quersch
   <path class="boden" style="--l:520" d="M100 332h30l6-6 6 6 6-6 6 6 6-6 6 6 6-6 6 6 6-6 6 6 6-6 6 6 6-6 6 6 6-6 6 6 6-6 6 6 6-6 6 6h150"/>
   <path class="leitung kalt" style="--l:420" d="M60 372H200V170H330"/><path class="leitung kalt" style="--l:200" d="M200 290H330"/>
   <path class="leitung warm" style="--l:420" d="M140 362H220V180H346"/>
+  <g class="nbfluss" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M60 372H200V170H330"/><path d="M200 290H330"/><path d="M140 362H220V180H346"/></g>
   <g class="geraet g1"><rect x="330" y="160" width="70" height="20" rx="8" fill="#fff" stroke="#0c0f1a" stroke-width="2.5"/><path d="M365 160v-14h10" stroke="#0c0f1a" stroke-width="2.5" fill="none"/></g>
   <g class="geraet g2"><rect x="330" y="280" width="70" height="46" rx="4" fill="#fff" stroke="#0c0f1a" stroke-width="2.5"/><path d="M342 280v-8h46v8" stroke="#0c0f1a" stroke-width="2.5" fill="none"/></g>
   <g class="geraet g3"><rect x="112" y="350" width="64" height="30" rx="6" fill="#fff" stroke="#2440d0" stroke-width="2.5"/><circle cx="132" cy="365" r="9" fill="none" stroke="#2440d0" stroke-width="2.5"/></g>
