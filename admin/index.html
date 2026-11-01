@@ -79,13 +79,19 @@
     .loeschen{background:none;border:0;color:var(--rot);font:500 .92rem var(--display);cursor:pointer;padding:8px 0}
     .gespeichert{font-size:.85rem;color:var(--gruen);opacity:0;transition:opacity .3s}
     .gespeichert.da{opacity:1}
+    .link-knopf{display:block;margin:14px auto 0;background:none;border:0;color:var(--elektrik);font:500 .95rem var(--display);cursor:pointer}
+    .pw{width:min(440px,calc(100% - 24px))}
+    .pw .feld{margin-bottom:12px}
+    .meldung.ok{color:var(--gruen)}
     @media (max-width:640px){
       .zahlen{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
       .zahl{padding:14px}.zahl b{font-size:1.7rem}.zahl span{font-size:.8rem}
       .zeile{grid-template-columns:40px minmax(0,1fr);}
       .zeile .rechts{grid-column:2;text-align:left;display:flex;gap:10px;align-items:center}
       .zeile .rechts small{margin:0}
-      .a-kopf nav button{font-size:.9rem;padding:8px 4px 8px 12px}
+      .a-kopf nav{flex-wrap:nowrap;gap:0}
+      .a-kopf nav button{font-size:.9rem;padding:8px 8px;white-space:nowrap}
+      .a-kopf .wrap{gap:10px}
       .apps{gap:10px;margin-top:16px}
       .app{flex-direction:column;align-items:flex-start;gap:12px;padding:16px;position:relative}
       .app-pfeil{position:absolute;top:14px;right:14px}
@@ -107,6 +113,7 @@
       <label class="feld"><span>Passwort</span><input type="password" id="lPw" autocomplete="current-password" required></label>
       <p class="meldung" id="lFehler"></p>
       <button class="btn btn-haupt" type="submit">Anmelden</button>
+      <button type="button" class="link-knopf" id="vergessen">Passwort vergessen?</button>
     </form>
   </div>
 
@@ -116,6 +123,7 @@
         <a href="/" aria-label="Zur Website" style="display:flex"><img src="/buchhaltung/logo.png" alt="Intech Sanitär" style="height:34px;width:auto" /></a>
         <span class="marke-admin">Admin</span>
         <nav>
+          <button type="button" id="pwKnopf">Passwort</button>
           <button type="button" id="abmelden">Abmelden</button>
         </nav>
       </div>
@@ -155,6 +163,25 @@
   </div>
 
   <dialog class="detail" id="detail"><div class="detail-innen" id="detailInnen"></div></dialog>
+
+  <dialog class="detail pw" id="pwDlg"><form class="detail-innen" id="pwForm" novalidate>
+    <p class="label">Konto</p>
+    <h2 id="pwTitel">Passwort ändern</h2>
+    <p id="pwText" style="margin:6px 0 18px">Das neue Passwort gilt für Admin, Buchhaltung und Rechnungen.</p>
+    <label class="feld"><span>Neues Passwort <small>(mindestens 8 Zeichen)</small></span><input type="password" id="pwNeu" autocomplete="new-password" minlength="8"></label>
+    <label class="feld"><span>Nochmals eingeben</span><input type="password" id="pwNochmal" autocomplete="new-password"></label>
+    <p class="meldung" id="pwMeldung"></p>
+    <div class="fuss"><button type="button" class="loeschen" id="pwZu" style="color:var(--text)">Abbrechen</button><button class="btn btn-haupt" type="submit">Speichern</button></div>
+  </form></dialog>
+
+  <dialog class="detail pw" id="vgDlg"><form class="detail-innen" id="vgForm" novalidate>
+    <p class="label">Konto</p>
+    <h2>Passwort vergessen</h2>
+    <p style="margin:6px 0 18px">Geben Sie Ihre E-Mail ein. Sie bekommen einen Link, mit dem Sie ein neues Passwort festlegen.</p>
+    <label class="feld"><span>E-Mail</span><input type="email" id="vgMail" autocomplete="username"></label>
+    <p class="meldung" id="vgMeldung"></p>
+    <div class="fuss"><button type="button" class="loeschen" id="vgZu" style="color:var(--text)">Abbrechen</button><button class="btn btn-haupt" type="submit">Link senden</button></div>
+  </form></dialog>
 
   <script>
   // Admin: Anfragen von der Website ansehen und bearbeiten. Zugriff nur mit Anmeldung;
@@ -272,8 +299,40 @@
     });
     $('abmelden').addEventListener('click', function(){ sb.auth.signOut({ scope: 'local' }); });
 
+    // Passwort ändern (angemeldet) oder neu festlegen (über den Link aus der E-Mail)
+    function pwZeigen(ausLink){
+      $('pwTitel').textContent = ausLink ? 'Neues Passwort festlegen' : 'Passwort ändern';
+      $('pwNeu').value = ''; $('pwNochmal').value = ''; $('pwMeldung').textContent = ''; $('pwMeldung').className = 'meldung';
+      $('pwDlg').showModal(); $('pwNeu').focus();
+    }
+    $('pwKnopf').addEventListener('click', function(){ pwZeigen(false); });
+    $('pwZu').addEventListener('click', function(){ $('pwDlg').close(); });
+    $('pwForm').addEventListener('submit', async function(e){
+      e.preventDefault();
+      var neu = $('pwNeu').value, m = $('pwMeldung');
+      m.className = 'meldung';
+      if (neu.length < 8) { m.textContent = 'Bitte mindestens 8 Zeichen verwenden.'; return; }
+      if (neu !== $('pwNochmal').value) { m.textContent = 'Die beiden Passwörter sind nicht gleich.'; return; }
+      var r = await sb.auth.updateUser({ password: neu });
+      if (r.error) { m.textContent = /different from the old/i.test(r.error.message) ? 'Das neue Passwort muss anders sein als das alte.' : r.error.message; return; }
+      m.className = 'meldung ok'; m.textContent = 'Gespeichert. Ab sofort gilt das neue Passwort.';
+      if (location.hash) history.replaceState(null, '', location.pathname);
+      setTimeout(function(){ $('pwDlg').close(); }, 1400);
+    });
+    $('vergessen').addEventListener('click', function(){ $('vgMail').value = $('lMail').value; $('vgMeldung').textContent = ''; $('vgMeldung').className = 'meldung'; $('vgDlg').showModal(); });
+    $('vgZu').addEventListener('click', function(){ $('vgDlg').close(); });
+    $('vgForm').addEventListener('submit', async function(e){
+      e.preventDefault();
+      var mail = $('vgMail').value.trim(), m = $('vgMeldung');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) { m.className = 'meldung'; m.textContent = 'Bitte eine gültige E-Mail eingeben.'; return; }
+      var r = await sb.auth.resetPasswordForEmail(mail, { redirectTo: location.origin + location.pathname });
+      if (r.error) { m.className = 'meldung'; m.textContent = /rate limit/i.test(r.error.message) ? 'Bitte ein paar Minuten warten und es dann nochmals versuchen.' : r.error.message; return; }
+      m.className = 'meldung ok'; m.textContent = 'Falls es ein Konto mit dieser E-Mail gibt, ist der Link jetzt unterwegs. Schauen Sie auch im Spam-Ordner nach.';
+    });
+
     sb.auth.onAuthStateChange(function(ereignis, sitzung){
       if (sitzung) { zeigen('admin'); laden(); } else { zeigen('login'); alle = []; }
+      if (ereignis === 'PASSWORD_RECOVERY') pwZeigen(true);
     });
     document.addEventListener('visibilitychange', function(){ if (document.visibilityState === 'visible' && !$('adminSeite').hidden) laden(); });
     setInterval(function(){ if (document.visibilityState === 'visible' && !$('adminSeite').hidden && !$('detail').open) laden(); }, 60000);
