@@ -198,7 +198,7 @@
       kontakt: '<path d="M4 5h16v11H8l-4 4z"/>'
     };
     var STATUS = { neu: 'Neu', in_arbeit: 'In Arbeit', erledigt: 'Erledigt' };
-    var gruppe = function(a){ a = (a.art || '') + ' ' + ((a.daten || {}).Anliegen || ''); return /Sanitär|Neubau|Umbau|Bad/.test(a) ? 'sanitaer' : /Heizung|Wärme|Solar|Sanierung/.test(a) ? 'heizung' : /Reparatur|Service|Notfall|Piquet/.test(a) ? 'reparatur' : 'kontakt'; };
+    var gruppe = function(a){ a = (a.art || '') + ' ' + ((a.daten || {}).Anliegen || ''); return /Sanitär|Neubau|Umbau|Bad/.test(a) ? 'sanitaer' : /Heizung|Wärme|Solar|Sanierung/.test(a) ? 'heizung' : /Reparatur|Service|Notfall|Pikett|Wasserschaden/.test(a) ? 'reparatur' : 'kontakt'; };
     var zeit = function(iso){ var d = new Date(iso); return d.toLocaleDateString('de-CH', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' ' + d.toLocaleTimeString('de-CH', { hour: '2-digit', minute: '2-digit' }); };
     var ort = function(a){ var d = a.daten || {}; return d.Ort || d['PLZ und Ort'] || d.Adresse || ''; };
     var alle = [], filterArt = 'alle', filterStatus = 'offen', offen = null;
