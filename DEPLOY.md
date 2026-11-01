@@ -1,56 +1,37 @@
-# Deployment: intech-sanitaer.ch auf GitHub Pages
+# Intech Sanitär: Website, Buchhaltung, Rechnungen und Admin
 
-Gleiches Prinzip wie bei **nasuvia.ch** (GitHub Pages + eigene Domain).
-Repo: https://github.com/nasufienes-bit/Intech
+Die Website ist statisches HTML im Ordner `web/`. GitHub Pages liefert den
+Branch `gh-pages` unter www.intech-sanitaer.ch aus.
 
-Veröffentlicht wird über den `gh-pages`-Branch: `npm run deploy` baut die
-Seite und pusht den fertigen Build dorthin — GitHub Pages liefert ihn aus.
+## Aufbau
 
-## Einmalige Einrichtung (Stand: DNS bei Wix ist bereits umgestellt ✓)
+- `web/`: die fertige Website (Seiten, `css/site.css`, `js/site.js`, Bilder, Schriften)
+- `web/buchhaltung/` und `web/buchhaltung/rechnungen/`: Buchhaltung und Rechnungen
+- `web/admin/`: Admin-Bereich mit den Anfragen von der Website
+- `werkzeug/bauen.py`: baut die Seiten der Website neu
+- `werkzeug/apps_uebernehmen.py`: übernimmt Buchhaltung, Rechnungen und Admin 1 zu 1
+  von Nasuvia und setzt Intech-Logo, Firmenangaben und den Supabase-Zugang ein
+- `werkzeug/supabase.json`: Project URL und Publishable key (nicht geheim)
+- `werkzeug/supabase-einrichten.sql`: Einrichtung der Datenbank (einmalig)
 
-1. **Code pushen** (falls noch nicht geschehen):
+Die alte React-Fassung liegt noch in `src/` und `public/`, wird aber nicht mehr veröffentlicht.
 
-   ```bash
-   cd ~/Desktop/intech-sanitaer
-   git push -u origin main
-   ```
+## Änderung veröffentlichen
 
-2. **Erste Veröffentlichung:**
+```bash
+cd ~/Nasuvia/Intech
+python3 werkzeug/bauen.py            # nach Änderungen an Seiten
+python3 werkzeug/apps_uebernehmen.py # nach Änderungen an den Nasuvia-Programmen
+git add -A && git commit -m "Beschreibung der Änderung" && git push
 
-   ```bash
-   npm run deploy
-   ```
+git worktree add /tmp/intech-pages origin/gh-pages -B gh-pages-lokal
+cd /tmp/intech-pages && git rm -rq . && cp -R ~/Nasuvia/Intech/web/. . && touch .nojekyll
+git add -A && git commit -m "Website aktualisieren" && git push origin HEAD:gh-pages
+cd ~/Nasuvia/Intech && git worktree remove /tmp/intech-pages
+```
 
-3. **GitHub Pages aktivieren:** Im Repo → **Settings → Pages** →
-   Source: **Deploy from a branch** → Branch: **gh-pages** / **(root)** → Save.
-
-4. **Domain:** Bei „Custom domain“ `www.intech-sanitaer.ch` eintragen
-   (steht sie schon da, weil die CNAME-Datei mitdeployt wird: nur prüfen).
-   Sobald verfügbar: Haken bei **Enforce HTTPS** setzen (Zertifikat
-   braucht nach der DNS-Umstellung bis ~1 Stunde).
-
-5. **Kontrolle:** https://www.intech-sanitaer.ch zeigt die neue Seite mit
-   Schloss-Symbol; https://intech-sanitaer.ch leitet auf www um; eine
-   Test-Mail an info@intech-sanitaer.ch kommt weiterhin an.
-
-## DNS-Referenz (bereits erledigt, im Wix-Konto)
+## DNS (unverändert lassen)
 
 - A `@` → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
 - CNAME `www` → `nasufienes-bit.github.io`
-- **Unverändert lassen:** MX (Google Workspace) und TXT (SPF/Verification)
-  — sonst fällt info@intech-sanitaer.ch aus!
-
-## Jedes weitere Update veröffentlichen
-
-```bash
-cd ~/Desktop/intech-sanitaer
-git add -A && git commit -m "Beschreibung der Änderung"
-git push          # Quellcode sichern
-npm run deploy    # Seite bauen & live stellen (~1 Minute)
-```
-
-Hinweis: Automatisches Deployen per GitHub Actions war vorbereitet, ist
-aber mit dem aktuellen GitHub-Token nicht möglich (fehlender
-„workflow“-Scope). Falls gewünscht: Token unter github.com/settings/tokens
-um den Scope **workflow** erweitern — dann kann der Actions-Workflow
-wieder eingerichtet werden und `npm run deploy` entfällt.
+- MX (Google Workspace) und TXT (SPF/Verification) nicht anfassen, sonst fällt info@intech-sanitaer.ch aus.
