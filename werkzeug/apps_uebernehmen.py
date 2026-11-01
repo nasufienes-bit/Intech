@@ -35,7 +35,7 @@ def datei(pfad, *paare):
 # ---------- Kopieren ----------
 if ZIEL.exists():
     shutil.rmtree(ZIEL)
-shutil.copytree(QUELLE, ZIEL, ignore=shutil.ignore_patterns('.git', '.DS_Store', '.claude'))
+shutil.copytree(QUELLE, ZIEL, ignore=shutil.ignore_patterns('.git', '.DS_Store', '.claude', 'fati', 'werkzeug'))
 for name in ('logo.png', 'icon-180.png', 'icon-192.png', 'icon-512.png'):
     shutil.copy(BILDER / name, ZIEL / name)
 
@@ -130,21 +130,19 @@ a = ers(a, """        <button class="chip" data-art="oto">OTO-Bestellungen</butt
         <button class="chip" data-art="heimnetz">Heimnetz</button>
         <button class="chip" data-art="stoerung">Störungen</button>
         <button class="chip" data-art="kontakt">Anfragen</button>""",
-"""        <button class="chip" data-art="neubau">Neubau</button>
-        <button class="chip" data-art="umbau">Umbau</button>
-        <button class="chip" data-art="sanierung">Sanierung</button>
-        <button class="chip" data-art="service">Service</button>
+"""        <button class="chip" data-art="sanitaer">Sanitär</button>
+        <button class="chip" data-art="heizung">Heizung</button>
+        <button class="chip" data-art="reparatur">Reparaturservice</button>
         <button class="chip" data-art="kontakt">Andere</button>""")
 a = re.sub(r"    var ICON = \{.*?\n    \};\n", """    var ICON = {
-      neubau: '<path d="M3 21V9l9-6 9 6v12"/><path d="M9 21v-6h6v6"/>',
-      umbau: '<path d="M3 12h18v3a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5v-3Z"/><path d="M6 12V5a2 2 0 0 1 4 0"/>',
-      sanierung: '<rect x="6" y="6" width="12" height="15" rx="2"/><path d="M9 6V3h6v3M9 11h6"/>',
-      service: '<path d="M14.5 5.5a3.5 3.5 0 0 0-4.9 4.9L3 17l4 4 6.6-6.6a3.5 3.5 0 0 0 4.9-4.9l-2.3 2.3-2.4-.6-.6-2.4Z"/>',
+      sanitaer: '<path d="M3 12h18v3a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5v-3Z"/><path d="M6 12V5a2 2 0 0 1 4 0"/>',
+      heizung: '<rect x="4" y="8" width="16" height="11" rx="2"/><path d="M8 8v11M12 8v11M16 8v11M9 5c-1-1 1-2 0-3M15 5c-1-1 1-2 0-3"/>',
+      reparatur: '<path d="M14.5 5.5a3.5 3.5 0 0 0-4.9 4.9L3 17l4 4 6.6-6.6a3.5 3.5 0 0 0 4.9-4.9l-2.3 2.3-2.4-.6-.6-2.4Z"/>',
       kontakt: '<path d="M4 5h16v11H8l-4 4z"/>'
     };
 """, a, flags=re.S)
 a = re.sub(r"    var gruppe = function\(a\)\{.*?\};\n",
-           "    var gruppe = function(a){ a = (a.art || '') + ' ' + ((a.daten || {}).Anliegen || ''); return /Neubau/.test(a) ? 'neubau' : /Umbau/.test(a) ? 'umbau' : /Sanierung/.test(a) ? 'sanierung' : /Service|Reparatur/.test(a) ? 'service' : 'kontakt'; };\n", a, flags=re.S)
+           "    var gruppe = function(a){ a = (a.art || '') + ' ' + ((a.daten || {}).Anliegen || ''); return /Sanitär|Neubau|Umbau|Bad/.test(a) ? 'sanitaer' : /Heizung|Wärme|Solar|Sanierung/.test(a) ? 'heizung' : /Reparatur|Service|Notfall|Piquet/.test(a) ? 'reparatur' : 'kontakt'; };\n", a, flags=re.S)
 a = ers(a, "return d['PLZ und Ort'] || d['Ort oder Region'] || d.Adresse || '';", "return d.Ort || d['PLZ und Ort'] || d.Adresse || '';")
 assert 'nasuvia' not in a.lower().replace('nasufienes', ''), 'Nasuvia im Admin übrig'
 (A / 'index.html').write_text(a)
